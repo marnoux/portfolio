@@ -36,7 +36,7 @@ export const Projects = () => {
                 UPS Clone
               </h4>
 
-              <p className="text-lg text-center md:text-left p-10">
+              <p className="text-lg text-center md:text-left p-10 max-w-4xl">
                 Lorem ipsum dolor, sit amet consectetur adipisicing elit. Et explicabo doloribus
                 distinctio repellendus odit sunt exercitationem, consequatur odio officiis velit,
                 tempora voluptatum numquam autem. Dolores quisquam illo odit rem non.
