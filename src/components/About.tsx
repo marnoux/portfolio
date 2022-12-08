@@ -1,7 +1,10 @@
 import { motion } from 'framer-motion';
 import React from 'react';
+import { useExperience } from '../data/hooks';
 
 export const About = () => {
+  const experience = useExperience();
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -31,15 +34,28 @@ export const About = () => {
         <h4 className="text-4xl font-semibold">
           Here is a <span className="underline decoration-[#F7AB0A]">little</span> background
         </h4>
-        <p className="text-sm">
-          I am a Front-end web developer with over 6 years experience in the field of web
-          development. I have worked in multiple industries including marketing, financial, online
-          gaming &amp; medical. I have a wealth of experience developing and maintaining web based
-          UIs with a rich user experience and a powerful backend. I continue to hone my skills as a
-          developer. I am always working on exciting projects as well as staying abreast with
-          industry standards by completing cutting edge courses. I make sure to find enjoyment in
-          everything that I spend my time on, which in turn helps me to always do my best in all
-          that I pursue. I strive to always move forwards.
+        <p className="text-base">
+          <div>
+            I am a Front-end engineer with {experience} years experience in the field of web
+            development.
+          </div>
+          <div>
+            I have worked in multiple industries including marketing, financial, online gaming &amp;
+            medical.
+          </div>
+          <div>
+            I have a wealth of experience developing and maintaining web based UIs with a rich user
+            experience and a powerful backend.
+          </div>
+          <div>
+            I continue to hone my skills as a developer by working on exciting projects as well as
+            staying abreast with industry standards by completing cutting edge courses.
+          </div>
+          <div>
+            I make sure to find enjoyment in everything that I spend my time on, which in turn helps
+            me to always do my best in all that I pursue.
+          </div>
+          <div>I strive to always move forwards.</div>
         </p>
       </div>
     </motion.div>
