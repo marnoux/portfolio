@@ -19,25 +19,25 @@ export const ContactMe = () => {
 
       <div className="flex flex-col space-y-10">
         <h4 className="text-4xl font-semibold text-center">
-          I've got what you need. &nbsp;
-          <span className="underline decoration-[#F7AB0A]/40">Let's Talk.</span>
+          I&apos;ve got what you need. &nbsp;
+          <span className="underline decoration-[#36b2ed]/40">Let&apos;s Talk.</span>
         </h4>
 
         <div className="space-y-10">
           <div className="flex items-center space-x-5 justify-center">
-            <PhoneIcon className="text-[#F7AB0A] h-7 w-7 animate-pulse" />
+            <PhoneIcon className="text-[#36b2ed] h-7 w-7 animate-pulse" />
 
             <p className="text-2xl">+31 61 686 1777</p>
           </div>
 
           <div className="flex items-center space-x-5 justify-center">
-            <EnvelopeIcon className="text-[#F7AB0A] h-7 w-7 animate-pulse" />
+            <EnvelopeIcon className="text-[#36b2ed] h-7 w-7 animate-pulse" />
 
             <p className="text-2xl">marnouxmanser@gmail.com</p>
           </div>
 
           <div className="flex items-center space-x-5 justify-center">
-            <MapPinIcon className="text-[#F7AB0A] h-7 w-7 animate-pulse" />
+            <MapPinIcon className="text-[#36b2ed] h-7 w-7 animate-pulse" />
 
             <p className="text-2xl">Amsterdam, Netherlands</p>
           </div>
@@ -64,7 +64,7 @@ export const ContactMe = () => {
 
           <button
             type="submit"
-            className="bg-[#F7AB0A] py-5 px-10 rounded-md text-black font-bold text-lg"
+            className="bg-[#36b2ed] py-5 px-10 rounded-md text-black font-bold text-lg"
           >
             Submit
           </button>

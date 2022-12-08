@@ -32,7 +32,7 @@ export const About = () => {
 
       <div className="mb-20 mt-0 space-y-20 px-0 md:px-10">
         <h4 className="text-4xl font-semibold">
-          Here is a <span className="underline decoration-[#F7AB0A]">little</span> background
+          Here is a <span className="underline decoration-[#36b2ed]">little</span> background
         </h4>
         <p className="text-base">
           <div>
