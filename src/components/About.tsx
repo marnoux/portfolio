@@ -36,8 +36,7 @@ export const About = () => {
         </h4>
         <p className="text-base">
           <div>
-            I am a Front-end engineer with {experience} years experience in the field of web
-            development.
+            I am a Front-end engineer with {experience} experience in the field of web development.
           </div>
           <div>
             I have worked in multiple industries including marketing, financial, online gaming &amp;
@@ -55,7 +54,7 @@ export const About = () => {
             I make sure to find enjoyment in everything that I spend my time on, which in turn helps
             me to always do my best in all that I pursue.
           </div>
-          <div>I strive to always move forwards.</div>
+          <div>I strive to always move forward.</div>
         </p>
       </div>
     </motion.div>
