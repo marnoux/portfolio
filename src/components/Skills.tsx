@@ -1,7 +1,29 @@
 import { motion } from 'framer-motion';
 import { Skill } from './Skill';
+import _ from 'lodash';
 
 export const Skills = () => {
+  const path = '/../public/assets/icons/tech/';
+  const extension = '.png';
+  const skills = [
+    { filename: 'angular', level: 50 },
+    { filename: 'csharp', level: 69 },
+    { filename: 'css3', level: 85 },
+    { filename: 'devops', level: 70 },
+    { filename: 'docker', level: 45 },
+    { filename: 'dotnet', level: 60 },
+    { filename: 'html5', level: 90 },
+    { filename: 'javascript', level: 95 },
+    { filename: 'mysql', level: 70 },
+    { filename: 'php', level: 10 },
+    { filename: 'polymer', level: 50 },
+    { filename: 'react', level: 85 },
+    { filename: 'sql', level: 80 },
+    { filename: 'next', level: 90 },
+    { filename: 'typescript', level: 85 },
+    { filename: 'vue', level: 75 },
+  ];
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -16,22 +38,19 @@ export const Skills = () => {
       </h3>
 
       <div className="grid grid-cols-4 gap-5">
-        <Skill />
-        <Skill />
-        <Skill />
-        <Skill />
-        <Skill />
-        <Skill />
-        <Skill />
-        <Skill />
-        <Skill />
-        <Skill />
-        <Skill />
-        <Skill />
-        <Skill />
-        <Skill />
-        <Skill />
-        <Skill />
+        {_.orderBy(skills, 'level', 'desc').map((skill, key) => {
+          const name = skill.filename;
+
+          return (
+            <Skill
+              key={name}
+              name={name}
+              level={skill.level}
+              src={`${path}${name}${extension}`}
+              directionLeft={key % 2 === 1}
+            />
+          );
+        })}
       </div>
     </motion.div>
   );

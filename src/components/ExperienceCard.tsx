@@ -15,7 +15,7 @@ export const ExperienceCard = () => {
           className="relative rounded-full w-32 h-32 object-cover"
           height={320}
           width={320}
-          src="https://media-exp1.licdn.com/dms/image/C4E0BAQHMeSt4_UoblQ/company-logo_200_200/0/1662660992956?e=1678320000&v=beta&t=fSo_R_CAF741iA0AQXA5K5Y4A4bim2wm4s5JbHbcAQQ"
+          src="/../public/assets/icons/tech/react.png"
         />
       </motion.div>
 
@@ -30,28 +30,7 @@ export const ExperienceCard = () => {
             className="h-10 w-10 rounded-full"
             height={100}
             width={100}
-            src="https://media-exp1.licdn.com/dms/image/C510BAQGyCfCQzGP_RA/company-logo_200_200/0/1519900931012?e=1678320000&v=beta&t=SDmei-7oSFSZUjaea2CiKX2Wpq1SGB818y6PrPHblSw"
-          />
-          <Image
-            alt="heroImg"
-            className="h-10 w-10 rounded-full"
-            height={100}
-            width={100}
-            src="https://media-exp1.licdn.com/dms/image/C510BAQGyCfCQzGP_RA/company-logo_200_200/0/1519900931012?e=1678320000&v=beta&t=SDmei-7oSFSZUjaea2CiKX2Wpq1SGB818y6PrPHblSw"
-          />
-          <Image
-            alt="heroImg"
-            className="h-10 w-10 rounded-full"
-            height={100}
-            width={100}
-            src="https://media-exp1.licdn.com/dms/image/C510BAQGyCfCQzGP_RA/company-logo_200_200/0/1519900931012?e=1678320000&v=beta&t=SDmei-7oSFSZUjaea2CiKX2Wpq1SGB818y6PrPHblSw"
-          />
-          <Image
-            alt="heroImg"
-            className="h-10 w-10 rounded-full"
-            height={100}
-            width={100}
-            src="https://media-exp1.licdn.com/dms/image/C510BAQGyCfCQzGP_RA/company-logo_200_200/0/1519900931012?e=1678320000&v=beta&t=SDmei-7oSFSZUjaea2CiKX2Wpq1SGB818y6PrPHblSw"
+            src="/../public/assets/icons/tech/react.png"
           />
         </div>
 

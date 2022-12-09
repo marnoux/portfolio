@@ -25,7 +25,7 @@ export const Hero = (props: Props) => {
         className="relative rounded-full w-32 h-32 object-cover"
         height={320}
         width={320}
-        src="https://marnoux.github.io/assets/img/hero-img.png"
+        src="/../public/assets/img/hero-img.png"
       />
       <div className="z-20">
         <h2 className="text-sm uppercase text-gray-500 pb-2 tracking-[15px]">Front-End Engineer</h2>
