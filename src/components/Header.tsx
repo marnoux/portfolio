@@ -2,18 +2,9 @@ import { motion } from 'framer-motion';
 import Link from 'next/link';
 import React from 'react';
 import { SocialIcon } from 'react-social-icons';
+import { socialLinks } from '../data/constants';
 
-type Props = {};
-
-export const Header = (props: Props) => {
-  const socialLinks = [
-    'https://github.com/marnoux',
-    'https://instagram.com/marnouxm',
-    'https://linkedin.com/in/marnouxm',
-    'https://twitter.com/MarnouxM',
-    'https://youtube.com/@marnoux',
-  ];
-
+export const Header = () => {
   return (
     <header className="sticky top-0 p-5 flex items-start justify-between max-w-7xl mx-auto z-20 xl:items-center ">
       <motion.div
