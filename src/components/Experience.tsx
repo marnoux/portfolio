@@ -75,7 +75,7 @@ export const Experience = () => {
   ];
 
   return (
-    <div className="max-w-[90vw] h-screen md:flew-row relative mx-auto flex h-screen max-w-full flex-col items-center justify-evenly overflow-hidden px-10 text-left">
+    <div className="max-w-[90vw] h-screen md:flew-row relative mx-auto flex flex-col items-center justify-evenly overflow-hidden px-10 text-left">
       <h3 className="absolute top-24 text-2xl uppercase tracking-[20px] text-gray-500">
         Experience
       </h3>

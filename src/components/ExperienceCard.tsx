@@ -48,14 +48,14 @@ export const ExperienceCard = ({
       </motion.a>
 
       <div className="px-0 md:px-10 space-y-5">
-        <h4 className="text-4xl font-light">{role}</h4>
+        <h4 className="text-2xl font-light">{role}</h4>
         <br />
 
         <a href={link} target="_blank" className="font-bold text-2xl mt-1" rel="noreferrer">
           {companyName}
         </a>
 
-        <div className="flex space-x-3 my-2 w-90vw">
+        <div className="flex flex-row mx-auto space-x-1 sm:space-x-3 w-80vw">
           {techUsed.map((item) => (
             <Image
               key={item}
@@ -72,11 +72,13 @@ export const ExperienceCard = ({
           endDate ? format(new Date(endDate), 'MMMM yyyy') : 'Present'
         }`}</p>
 
-        <h1 className="text-gray-500 text-xl tracking-wider">Responsibilities &amp; Projects</h1>
+        <div className="lg:visible">
+          <h1 className="text-gray-500 text-xl tracking-wider">Responsibilities &amp; Projects</h1>
 
-        <ul className="list-disc space-y-4 ml-5 text-lg">
-          {points.sort().map((point) => (point ? <li key={point}>{point}</li> : ''))}
-        </ul>
+          <ul className="list-disc space-y-4 ml-5 text-lg">
+            {points.sort().map((point) => (point ? <li key={point}>{point}</li> : ''))}
+          </ul>
+        </div>
       </div>
     </article>
   );

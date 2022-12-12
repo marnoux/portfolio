@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion';
+// import { motion } from 'framer-motion';
 import Image from 'next/image';
 
 type Props = {
@@ -10,15 +10,15 @@ type Props = {
 
 export const Skill = ({ directionLeft, level, name, src }: Props) => {
   return (
-    <motion.div
-      initial={{ x: directionLeft ? -200 : 200, opacity: 0 }}
-      transition={{ duration: 1.5 }}
-      whileInView={{ opacity: 1, x: 0 }}
+    <div
+      // initial={{ x: directionLeft ? -200 : 200, opacity: 0 }}
+      // transition={{ duration: 1.5 }}
+      // whileInView={{ opacity: 1, x: 0 }}
       className="group relative flex cursor-pointer px-2"
     >
       <Image
         alt="heroImg"
-        className="object-cover  h-24 w-24 xl:w-32 xl:h-32 filter group-hover:grayscale transition duration-300 ease-in-out"
+        className="object-cover h-20 w-20 xl:w-32 xl:h-32 filter group-hover:grayscale transition duration-300 ease-in-out"
         height={128}
         width={128}
         src={src}
@@ -33,6 +33,6 @@ export const Skill = ({ directionLeft, level, name, src }: Props) => {
           </p>
         </div>
       </div>
-    </motion.div>
+    </div>
   );
 };
