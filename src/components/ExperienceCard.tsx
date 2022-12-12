@@ -1,7 +1,31 @@
+import { format } from 'date-fns';
 import { motion } from 'framer-motion';
+import _ from 'lodash';
 import Image from 'next/image';
 
-export const ExperienceCard = () => {
+type ExperienceCardProps = {
+  fileName: string;
+  role: string;
+  path: string;
+  extension: string;
+  companyName: string;
+  techUsed: string[];
+  startDate: string;
+  endDate: string;
+  points: string[];
+};
+
+export const ExperienceCard = ({
+  fileName,
+  role,
+  companyName,
+  path,
+  extension,
+  techUsed,
+  startDate,
+  endDate,
+  points,
+}: ExperienceCardProps) => {
   return (
     <article className="flex flex-col rounded-lg items-center space-y-7 flex-shrink-0 w-[500px] md:w-[600px] xl:w-[900px] snap-center bg-[#292929] p-10 cursor-pointer transition-opacity duration-200 overflow-hidden">
       <motion.div
@@ -11,38 +35,40 @@ export const ExperienceCard = () => {
         className="rounded-full xl:w-[200px] xl:h-[200px] object-cover object-center"
       >
         <Image
-          alt="heroImg"
+          alt="Experience Card Company Image"
           className="relative rounded-full w-32 h-32 object-cover"
           height={320}
           width={320}
-          src="/../public/assets/icons/tech/react.png"
+          src={`${path}${fileName}${extension}`}
         />
       </motion.div>
 
-      <div className="px-0 md:px-10 ">
-        <h4 className="text-4xl font-light">Senior Frontend Engineer</h4>
+      <div className="px-0 md:px-10 space-y-3">
+        <h4 className="text-4xl font-light">{role}</h4>
 
-        <p className="font-bold text-2xl mt-1">Castor</p>
+        <p className="font-bold text-2xl mt-1">{companyName}</p>
 
         <div className="flex space-x-2 my-2">
-          <Image
-            alt="heroImg"
-            className="h-10 w-10 rounded-full"
-            height={100}
-            width={100}
-            src="/../public/assets/icons/tech/react.png"
-          />
+          {techUsed.map((item) => (
+            <Image
+              key={item}
+              alt="Work experience skill image"
+              className="h-10 w-10 rounded-full"
+              height={100}
+              width={100}
+              src={`/../public/assets/icons/tech/${item}.png`}
+            />
+          ))}
         </div>
 
-        <p className="uppercase py-5 text-gray-300">Started work... - Ended...</p>
+        <p className="py-5 text-gray-300">{`${format(new Date(startDate), 'MMMM yyyy')} - ${
+          endDate ? format(new Date(endDate), 'MMMM yyyy') : 'Present'
+        }`}</p>
+
+        <h1 className="text-gray-500 text-xl tracking-wider">Responsibilities &amp; Projects</h1>
 
         <ul className="list-disc space-y-4 ml-5 text-lg">
-          <li>Summary Points</li>
-          <li>Summary Points</li>
-          <li>Summary Points</li>
-          <li>Summary Points</li>
-          <li>Summary Points</li>
-          <li>Summary Points</li>
+          {points.sort().map((point) => (point ? <li key={point}>{point}</li> : ''))}
         </ul>
       </div>
     </article>

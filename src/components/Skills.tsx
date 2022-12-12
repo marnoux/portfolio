@@ -7,7 +7,7 @@ export const Skills = () => {
   const extension = '.png';
   const skills = [
     { filename: 'angular', level: 50 },
-    { filename: 'csharp', level: 69 },
+    { filename: 'csharp', level: 70 },
     { filename: 'css3', level: 85 },
     { filename: 'devops', level: 70 },
     { filename: 'docker', level: 45 },
@@ -15,9 +15,9 @@ export const Skills = () => {
     { filename: 'html5', level: 90 },
     { filename: 'javascript', level: 95 },
     { filename: 'mysql', level: 70 },
-    { filename: 'php', level: 10 },
+    { filename: 'php', level: 30 },
     { filename: 'polymer', level: 50 },
-    { filename: 'react', level: 85 },
+    { filename: 'react', level: 90 },
     { filename: 'sql', level: 80 },
     { filename: 'next', level: 90 },
     { filename: 'typescript', level: 85 },
