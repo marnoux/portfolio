@@ -3,10 +3,8 @@ import Link from 'next/link';
 import { Cursor, useTypewriter } from 'react-simple-typewriter';
 import { BackgroundCircles } from './BackgroundCircles';
 
-type Props = {};
-
-export const Hero = (props: Props) => {
-  const [text, count] = useTypewriter({
+export const Hero = () => {
+  const [text] = useTypewriter({
     words: [
       'Marnoux', //
       'a <WebDeveloper />',
@@ -16,7 +14,7 @@ export const Hero = (props: Props) => {
   });
 
   return (
-    <div className="flex h-screen flex-col items-center justify-center space-y-8 overflow-hidden text-center">
+    <div className="mx-auto flex h-screen flex-col items-center justify-center space-y-8 overflow-hidden text-center">
       <BackgroundCircles />
       <Image
         alt="heroImg"
@@ -29,7 +27,7 @@ export const Hero = (props: Props) => {
       <div className="z-20">
         <h2 className="pb-2 text-sm uppercase tracking-[15px] text-gray-500">Front-End Engineer</h2>
         <h1 className="scroll-px-10 text-5xl font-semibold lg:text-6xl">
-          <span>{`I'm ${text}`}</span>
+          <span className="static">{`I'm ${text}`}</span>
           <Cursor cursorColor="#36b2ed" />
         </h1>
         <div>
