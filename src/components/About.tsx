@@ -1,11 +1,9 @@
+import { formatDistance } from 'date-fns';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import React from 'react';
-import { useExperience } from '../data/hooks';
 
 export const About = () => {
-  const experience = useExperience();
-
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -43,14 +41,14 @@ export const About = () => {
           Here is a <span className="underline decoration-[#36b2ed]">little</span> background
         </h4>
         <p className="text-base">
-          I am a Front-end engineer with {experience} experience in the field of web development. I
-          have worked in multiple industries including marketing, financial, online gaming &amp;
-          medical. I have a wealth of experience developing and maintaining web based UIs with a
-          rich user experience and a powerful backend. I continue to hone my skills as a developer
-          by working on exciting projects as well as staying abreast with industry standards by
-          completing cutting edge courses. I make sure to find enjoyment in everything that I spend
-          my time on, which in turn helps me to always do my best in all that I pursue. I strive to
-          always move forward.
+          I am a Front-end engineer with {formatDistance(new Date(), new Date('2016-01-01'))}
+          experience in the field of web development. I have worked in multiple industries including
+          marketing, financial, online gaming &amp; medical. I have a wealth of experience
+          developing and maintaining web based UIs with a rich user experience and a powerful
+          backend. I continue to hone my skills as a developer by working on exciting projects as
+          well as staying abreast with industry standards by completing cutting edge courses. I make
+          sure to find enjoyment in everything that I spend my time on, which in turn helps me to
+          always do my best in all that I pursue. I strive to always move forward.
         </p>
       </div>
     </motion.div>

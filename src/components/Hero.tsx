@@ -25,6 +25,7 @@ export const Hero = (props: Props) => {
         className="relative rounded-full w-32 h-32 object-cover"
         height={320}
         width={320}
+        priority
         src="/../public/assets/img/hero-img.png"
       />
       <div className="z-20">

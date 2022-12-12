@@ -45,19 +45,20 @@ export const Header = () => {
           duration: 1.5,
         }}
       >
-        <Link href={'#contact'}>
-          <button className="border border-[#242424] rounded-full uppercase text-xs tracking-widest text-gray-500 transition-all hover:border-[#36b2ed] focus:text-[#36b2ed]">
-            <SocialIcon
-              className="cursor-pointer"
-              network="email"
-              fgColor="gray"
-              bgColor="transparent"
-            />
-            <span className="uppercase hidden md:inline-flex text-sm text-gray-400 mr-5">
-              Get in touch
-            </span>
-          </button>
-        </Link>
+        <a
+          href={'#contact'}
+          className="border border-[#242424] rounded-full uppercase text-xs tracking-widest text-gray-500 transition-all hover:border-[#36b2ed] focus:text-[#36b2ed]"
+        >
+          <SocialIcon
+            className="cursor-pointer"
+            network="email"
+            fgColor="gray"
+            bgColor="transparent"
+          />
+          <span className="uppercase hidden md:inline-flex text-sm text-gray-400 mr-5">
+            Get in touch
+          </span>
+        </a>
       </motion.div>
     </header>
   );
