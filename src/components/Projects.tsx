@@ -20,12 +20,7 @@ export const Projects = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
             >
-              <Image
-                alt={i.toString()}
-                src={'https://marnoux.github.io/assets/img/react.png'}
-                height={666}
-                width={375}
-              />
+              <Image alt={i.toString()} src={'/react.png'} height={666} width={375} />
             </motion.div>
 
             <div>

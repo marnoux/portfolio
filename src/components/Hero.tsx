@@ -26,7 +26,7 @@ export const Hero = (props: Props) => {
         height={320}
         width={320}
         priority
-        src="/../public/assets/img/hero-img.png"
+        src="/hero-img.png"
       />
       <div className="z-20">
         <h2 className="text-sm uppercase text-gray-500 pb-2 tracking-[15px]">Front-End Engineer</h2>

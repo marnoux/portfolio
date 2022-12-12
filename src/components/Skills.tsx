@@ -3,7 +3,7 @@ import { Skill } from './Skill';
 import _ from 'lodash';
 
 export const Skills = () => {
-  const path = '/../public/assets/icons/tech/';
+  const path = '/';
   const extension = '.png';
   const skills = [
     { filename: 'angular', level: 50 },
