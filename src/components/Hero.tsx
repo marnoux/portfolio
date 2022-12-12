@@ -10,27 +10,25 @@ export const Hero = (props: Props) => {
     words: [
       'Marnoux', //
       'a <WebDeveloper />',
-      'a husband & father',
-      'a musician',
     ],
     loop: true,
     delaySpeed: 2000,
   });
 
   return (
-    <div className="h-screen flex flex-col space-y-8 items-center justify-center text-center overflow-hidden">
+    <div className="flex h-screen flex-col items-center justify-center space-y-8 overflow-hidden text-center">
       <BackgroundCircles />
       <Image
         alt="heroImg"
-        className="relative rounded-full w-32 h-32 object-cover"
+        className="relative h-32 w-32 rounded-full object-cover"
         height={320}
         width={320}
         priority
         src="/hero-img.png"
       />
       <div className="z-20">
-        <h2 className="text-sm uppercase text-gray-500 pb-2 tracking-[15px]">Front-End Engineer</h2>
-        <h1 className="text-5xl lg:text-6xl font-semibold scroll-px-10">
+        <h2 className="pb-2 text-sm uppercase tracking-[15px] text-gray-500">Front-End Engineer</h2>
+        <h1 className="scroll-px-10 text-5xl font-semibold lg:text-6xl">
           <span>{`I'm ${text}`}</span>
           <Cursor cursorColor="#36b2ed" />
         </h1>
@@ -44,9 +42,9 @@ export const Hero = (props: Props) => {
           <Link href={'#skills'}>
             <button className="heroButton">Skills</button>
           </Link>
-          {/* <Link href={'#projects'}>
-            <button className="heroButton">Projects</button>
-          </Link> */}
+          <Link href={'#projects'}>
+            <button className="heroButton">Contributions</button>
+          </Link>
           <Link href={'#contact'}>
             <button className="heroButton">Contact</button>
           </Link>

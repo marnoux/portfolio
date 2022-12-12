@@ -9,15 +9,15 @@ export const Projects = () => {
   });
 
   return (
-    <div className="h-screen relative flex overflow-hidden flex-col text-left md:flex-row max-w-full justify-evenly mx-auto items-center z-0 ">
-      <h3 className="absolute top-24 uppercase tracking-[20px] text-gray-500 text-2xl">
+    <div className="relative z-0 mx-auto flex h-screen max-w-full flex-col items-center justify-evenly overflow-hidden text-left md:flex-row ">
+      <h3 className="absolute top-24 text-2xl uppercase tracking-[20px] text-gray-500">
         Code Contributions
       </h3>
-      <div className="relative flex overflow-x-scroll overflow-y-hidden snap-x snap-mandatory z-20 scrollbar scrollbar-track-gray-400/20 scrollbar-thumb-[#36b2ed]">
+      <div className="relative z-20 flex snap-x snap-mandatory overflow-x-scroll scrollbar overflow-y-hidden scrollbar-track-gray-400/20 scrollbar-thumb-[#36b2ed]">
         {projects.map((project, i) => (
           <div
             key={i}
-            className="w-screen flex-shrink-0 snap-center flex flex-col space-y-5 items-center justify-center p20 m:p-44 h-screen content-center"
+            className="p20 m:p-44 flex h-screen w-screen flex-shrink-0 snap-center flex-col content-center items-center justify-center space-y-5"
           >
             <motion.div
               initial={{ y: -300, opacity: 0 }}
@@ -26,12 +26,15 @@ export const Projects = () => {
               viewport={{ once: true }}
             >
               {/* <Image alt={i.toString()} src={'/react.png'} height={666} width={375} /> */}
-              <ReactGitHubCalendar
-                cache={12 * 60 * 60 * 1000}
-                global_stats={false}
-                userName={'marnoux'}
-                tooltips={false}
-              />
+              <div className="mb-0 w-screen max-w-3xl">
+                <ReactGitHubCalendar
+                  cache={12 * 60 * 60 * 1000}
+                  global_stats={false}
+                  responsive
+                  userName={'marnoux'}
+                  tooltips={false}
+                />
+              </div>
             </motion.div>
 
             {/* <div>
@@ -50,7 +53,7 @@ export const Projects = () => {
           </div>
         ))}
       </div>
-      <div className="w-full absolute top-[30%] bg-[#36b2ed]/5 left-0 h-[500px] -skew-y-12" />
+      <div className="absolute top-[30%] left-0 h-[500px] w-full -skew-y-12 bg-[#36b2ed]/5" />
     </div>
   );
 };
