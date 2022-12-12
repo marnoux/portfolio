@@ -28,7 +28,7 @@ export const About = () => {
       >
         <Image
           alt="Gif of developer coding"
-          className="w-56 h-56 rounded-full object-cover md:rounded-lg md:w-64 md:h-64 xl:w-[500px] xl:h-[600px]"
+          className="w-56 h-56 rounded-full object-cover md:rounded-lg md:w-64 md:h-64 xl:w-72 xl:h-72"
           src={'/developer.gif'}
           height={480}
           width={360}

@@ -29,7 +29,7 @@ export const ExperienceCard = ({
   points,
 }: ExperienceCardProps) => {
   return (
-    <article className="flex flex-col rounded-lg items-center space-y-7 flex-shrink-0 w-[500px] md:w-[600px] xl:w-[900px] snap-center bg-[#292929] p-10 cursor-pointer transition-opacity duration-200 overflow-hidden">
+    <article className="flex flex-col rounded-lg items-center space-y-7 flex-shrink-0 w-[90vw] md:w-[600px] xl:w-[900px] snap-center bg-[#292929] p-10 cursor-pointer transition-opacity duration-200 overflow-hidden">
       <motion.a
         href={link}
         target="_blank"
@@ -55,7 +55,7 @@ export const ExperienceCard = ({
           {companyName}
         </a>
 
-        <div className="flex space-x-3 my-2">
+        <div className="flex space-x-3 my-2 w-90vw">
           {techUsed.map((item) => (
             <Image
               key={item}
