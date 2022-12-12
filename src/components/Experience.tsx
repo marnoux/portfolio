@@ -81,6 +81,7 @@ export const Experience = () => {
         {_.orderBy(experience, 'startDate', 'desc').map((e) => (
           <ExperienceCard
             key={e.name}
+            link={e.link}
             path={path}
             extension={extension}
             fileName={e.fileName}
