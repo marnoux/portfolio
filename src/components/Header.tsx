@@ -1,12 +1,18 @@
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import React from 'react';
 import { SocialIcon } from 'react-social-icons';
-import { socialLinks } from '../data/constants';
 
 export const Header = () => {
+  const socialLinks = [
+    'https://github.com/marnoux',
+    'https://instagram.com/marnouxm',
+    'https://linkedin.com/in/marnouxm',
+    'https://twitter.com/MarnouxM',
+    'https://youtube.com/@marnoux',
+  ];
+
   return (
-    <header className="sticky top-0 p-5 flex items-start justify-between max-w-7xl mx-auto z-20 xl:items-center ">
+    <header className="sticky top-0 p-5 flex items-start justify-between max-w-7xl mx-auto z-20 xl:items-center">
       <motion.div
         initial={{
           x: -500,
@@ -45,8 +51,8 @@ export const Header = () => {
           duration: 1.5,
         }}
       >
-        <a
-          href={'#contact'}
+        <div
+          onClick={() => (window.location.href = '#contact')}
           className="border border-[#242424] rounded-full uppercase text-xs tracking-widest text-gray-500 transition-all hover:border-[#36b2ed] focus:text-[#36b2ed]"
         >
           <SocialIcon
@@ -58,7 +64,7 @@ export const Header = () => {
           <span className="uppercase hidden md:inline-flex text-sm text-gray-400 mr-5">
             Get in touch
           </span>
-        </a>
+        </div>
       </motion.div>
     </header>
   );
