@@ -3,7 +3,7 @@ import _ from 'lodash';
 import { ExperienceCard } from './ExperienceCard';
 
 export const Experience = () => {
-  const path = '/../public/assets/icons/experience/';
+  const path = '/';
   const extension = '.jpg';
 
   const experience = [

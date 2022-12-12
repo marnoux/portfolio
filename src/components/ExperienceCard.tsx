@@ -63,7 +63,7 @@ export const ExperienceCard = ({
               className="h-10 w-10 rounded-full"
               height={100}
               width={100}
-              src={`/../public/assets/icons/tech/${item}.png`}
+              src={`/${item}.png`}
             />
           ))}
         </div>

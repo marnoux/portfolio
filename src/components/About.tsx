@@ -30,7 +30,7 @@ export const About = () => {
         <Image
           alt="Gif of developer coding"
           className="mt-80 mb-20 md:mb-0 sm:mb-20 sm:mt-60 md:mt-0  w-56 h-56 rounded-full object-cover md:rounded-lg md:w-56 md:h95 xl:w-[500px] xl:h-[600px] "
-          src={'/../public/assets/img/developer.gif'}
+          src="/developer.gif"
           height={480}
           width={360}
         />
