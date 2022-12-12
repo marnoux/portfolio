@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import Image from 'next/image';
 import React from 'react';
 import { useExperience } from '../data/hooks';
 
@@ -14,7 +15,7 @@ export const About = () => {
     >
       <h3 className="absolute top-24 uppercase tracking-[20px] text-gray-500 text-2xl ">About</h3>
 
-      <motion.img
+      <motion.div
         initial={{
           x: -200,
         }}
@@ -25,10 +26,17 @@ export const About = () => {
           opacity: 1,
           x: 0,
         }}
+        className="flex-shrink-0"
         viewport={{ once: true }}
-        src="https://media1.giphy.com/media/qgQUggAC3Pfv687qPC/giphy.gif?cid=ecf05e47oq2chp9mgp9q6cfqy1oktqekhp6d3utv1tvbrdfx&rid=giphy.gif&ct=g"
-        className="mt-80 mb-20 md:mb-0 sm:mb-20 sm:mt-60 md:mt-0 flex-shrink-0 w-56 h-56 rounded-full object-cover md:rounded-lg md:w-56 md:h95 xl:w-[500px] xl:h-[600px] "
-      />
+      >
+        <Image
+          alt="Gif of developer coding"
+          className="mt-80 mb-20 md:mb-0 sm:mb-20 sm:mt-60 md:mt-0  w-56 h-56 rounded-full object-cover md:rounded-lg md:w-56 md:h95 xl:w-[500px] xl:h-[600px] "
+          src={'/../public/assets/img/developer.gif'}
+          height={480}
+          width={360}
+        />
+      </motion.div>
 
       <div className="mb-20 mt-0 space-y-20 px-0 md:px-10">
         <h4 className="text-4xl font-semibold">
