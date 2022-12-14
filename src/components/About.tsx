@@ -23,30 +23,44 @@ export const About = () => {
           opacity: 1,
           x: 0,
         }}
-        className="md:flex-shrink-0 mt-[10rem] md:mt-0 mb-[10vh]"
+        className="flex-shrink-0 sm:mt-[20vh] sm:mb-[2vh]"
         viewport={{ once: true }}
       >
         <Image
           alt="Gif of developer coding"
           className="w-56 h-56 rounded-full object-cover md:rounded-lg md:w-64 md:h-64 xl:w-72 xl:h-72"
-          src={'/developer.gif'}
+          src="/developer.gif"
           height={480}
           width={360}
         />
       </motion.div>
 
-      <div className={`space-y-10 px-0 mt-[-10vh] md:px-10`}>
-        <div className="text-base">
-          <div className="md:mb-4">
-            I am a Front-end engineer with {formatDistance(new Date(), new Date('2016-01-01'))}{' '}
-            experience in the field of web development.
+      <div
+        className={`space-y-10 w-screen px-0 md:px-10 relative z-20 md:mt-20 lg:mt-20 flex snap-x snap-mandatory overflow-x-scroll scrollbar scrollbar-track-gray-400/20 scrollbar-thumb-[#36b3ed74]`}
+      >
+        <div className="text-base space-y-4">
+          <div>
+            I am a Front-end engineer with{' '}
+            {formatDistance(new Date(), new Date('2016-01-01'), { addSuffix: false })} professional
+            experience in web development.
           </div>
-          <div className="md:mb-4">
-            I have worked in multiple industries including marketing, financial, online gaming &amp;
-            medical, through this I have built up a wealth of experience developing and maintaining
-            UIs with a rich user experience and a powerful backend.
+          <div>
+            I have worked in multiple industries including marketing, financial, online gaming and
+            the medical field.
           </div>
-          <div className="md:mb-4">I strive to always move forward.</div>
+          <div>
+            I have a wealth of experience in developing and maintaining web based UIs with a rich
+            user experience and a powerful backend.
+          </div>
+          <div>
+            I continue to hone my skills as a developer by working on exciting projects as well as
+            staying abreast with industry standards by completing cutting edge courses.
+          </div>
+          <div>
+            I make sure to find enjoyment in everything that I spend my time on, which in turn helps
+            me to always do my best in all that I pursue.
+          </div>
+          <div>I strive to always move forwards.</div>
         </div>
       </div>
     </motion.div>

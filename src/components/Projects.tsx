@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
+import Link from 'next/link';
 
 export const Projects = () => {
   const projects = [1];
@@ -10,8 +11,11 @@ export const Projects = () => {
 
   return (
     <div className="relative z-0 mx-auto flex h-screen max-w-full flex-col items-center justify-evenly overflow-hidden text-left md:flex-row ">
-      <h3 className="absolute top-24 text-2xl uppercase tracking-[20px] text-gray-500">
-        Code Contributions
+      <h3 className="absolute top-24 text-2xl uppercase text-center tracking-[20px] text-gray-500">
+        Code
+      </h3>
+      <h3 className="absolute top-36 text-2xl uppercase tracking-[20px] text-gray-500">
+        Contributions
       </h3>
       <div className="relative z-20 flex snap-x snap-mandatory overflow-x-scroll scrollbar overflow-y-hidden scrollbar-track-gray-400/20 scrollbar-thumb-[#36b2ed]">
         {projects.map((project, i) => (
@@ -35,6 +39,9 @@ export const Projects = () => {
                   tooltips={false}
                 />
               </div>
+              <Link href="https://github.com/marnoux?tab=overview&from=2022-12-01&to=2022-12-14">
+                <button></button>
+              </Link>
             </motion.div>
 
             {/* <div>
