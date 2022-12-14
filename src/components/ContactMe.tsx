@@ -15,10 +15,10 @@ export const ContactMe = () => {
   };
 
   return (
-    <div className="h-screen max-w-[100vw] w-[90vw] flex relative flex-col text-center md:text-left md:flex-row max-w-7xl px-10 justify-evenly mx-auto items-center">
+    <div className="h-screen w-[90vw] flex relative flex-col text-center md:text-left md:flex-row max-w-7xl px-10 justify-evenly mx-auto items-center align-center">
       <h3 className="absolute top-24 uppercase tracking-[20px] text-gray-500 text-2xl">Contact</h3>
 
-      <div className="flex flex-col space-y-5 mt-[30vh]">
+      <div className="flex flex-col space-y-5 mt-[30vh] lg:mt-[-15vh]">
         <h4 className="text-4xl font-semibold text-center">
           I&apos;ve got what you need. &nbsp;
           <span className="underline decoration-[#36b2ed]/40">Let&apos;s Talk.</span>
@@ -45,7 +45,7 @@ export const ContactMe = () => {
         </div>
 
         <form
-          className="flex flex-col space-y-2 w-fit mx-auto max-w-[50rem]"
+          className="flex flex-col space-y-2 w-fit mx-auto sm:max-w-[50rem] lg:max-w-[90vw]"
           onSubmit={handleSubmit(onSubmit)}
         >
           <input {...register('name')} className="contactInput" placeholder="Name " type="text" />

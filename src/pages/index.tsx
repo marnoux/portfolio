@@ -11,7 +11,7 @@ import Image from 'next/image';
 
 export default function Home() {
   return (
-    <div className="z-0 h-screen snap-y snap-mandatory overflow-x-scroll overflow-y-scroll bg-[rgb(36,36,36)] text-white scrollbar scrollbar-track-gray-400/20 scrollbar-thumb-[#36b2ed] sm:max-w-fit">
+    <div className="z-0 h-screen snap-y snap-mandatory overflow-x-scroll overflow-y-scroll bg-[rgb(36,36,36)] text-white scrollbar scrollbar-track-gray-400/20 scrollbar-thumb-[#36b2ed]">
       <Head>
         <title>{`Marnoux's Portfolio`}</title>
       </Head>

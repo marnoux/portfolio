@@ -75,12 +75,12 @@ export const Experience = () => {
   ];
 
   return (
-    <div className="max-w-[90vw] h-screen md:flew-row relative mx-auto flex flex-col items-center justify-evenly overflow-hidden px-10 text-left">
+    <div className="h-screen md:flew-row relative mx-auto flex flex-col items-center justify-evenly overflow-hidden px-10 text-left">
       <h3 className="absolute top-24 text-2xl uppercase tracking-[20px] text-gray-500">
         Experience
       </h3>
 
-      <motion.div className="flex snap-x snap-mandatory space-x-5 overflow-x-scroll p-10 mt-[15vh] w-[80vw] scrollbar scrollbar-track-gray-400/20 scrollbar-thumb-[#36b2ed]">
+      <motion.div className="flex snap-x snap-mandatory space-x-5 overflow-x-scroll overflow-x-hidden lg:max-w-[50vw] p-10 mt-[15vh] w-[80vw] scrollbar scrollbar-track-gray-400/20 scrollbar-thumb-[#36b2ed]">
         {_.orderBy(experience, 'startDate', 'desc').map((e) => (
           <ExperienceCard
             key={e.name}

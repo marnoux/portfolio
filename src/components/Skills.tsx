@@ -39,7 +39,7 @@ export const Skills = () => {
         Hover over a skill for current proficiency
       </h3>
 
-      <div className="absolute top-60 grid lg:grid-cols-4 lg:gap-5 lg:w-screen sm:w-[70vw] grid-cols-2 gap-12 ">
+      <div className="absolute top-60 grid lg:grid-cols-4 lg:gap-5 lg:w-[50vw] sm:w-[70vw] grid-cols-2 gap-12 items-center justify-center">
         {_.orderBy(skills, 'level', 'desc').map((skill, key) => {
           const name = skill.filename;
 
