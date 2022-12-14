@@ -28,7 +28,7 @@ export const About = () => {
       >
         <Image
           alt="Gif of developer coding"
-          className="w-56 h-56 rounded-full object-cover md:rounded-lg md:w-64 md:h-64 xl:w-72 xl:h-72"
+          className="w-56 h-56 mt-[24vh] md:mt-[0vh] rounded-full object-cover md:rounded-lg md:w-64 md:h-64 xl:w-72 xl:h-72"
           src="/developer.gif"
           height={480}
           width={360}
@@ -36,7 +36,7 @@ export const About = () => {
       </motion.div>
 
       <div
-        className={`space-y-10 w-screen px-0 md:px-10 relative z-20 md:mt-20 lg:mt-20 flex snap-x snap-mandatory overflow-y   -scroll scrollbar scrollbar-track-gray-400/20 scrollbar-thumb-[#36b3ed74]`}
+        className={`space-y-10 w-screen px-0 md:px-10 relative z-20 mt-4 md:mt-20 lg:mt-20 flex snap-x snap-mandatory overflow-y-scroll overflow-x-hidden scrollbar scrollbar-track-gray-400/20 scrollbar-thumb-[#37c0ff74]`}
       >
         <div className="text-base space-y-4">
           <div>

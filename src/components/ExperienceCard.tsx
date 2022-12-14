@@ -40,18 +40,18 @@ export const ExperienceCard = ({
       >
         <Image
           alt="Experience Card Company Image"
-          className="relative rounded-full w-32 h-32 object-cover"
+          className="relative rounded-full w-24 h-24 md:w-32 md:h-32 object-cover"
           height={320}
           width={320}
           src={`${path}${fileName}${extension}`}
         />
       </motion.a>
 
-      <div className="px-0 md:px-10 space-y-5">
+      <div className="px-0 md:px-10 space-y-5 overflow-y-scroll overflow-x-hidden scrollbar-thin scrollbar-track-gray-400/20 scrollbar-thumb-[#36b2ed]/20 ">
         <h4 className="text-2xl font-light">{role}</h4>
         <br />
 
-        <a href={link} target="_blank" className="font-bold text-2xl mt-1" rel="noreferrer">
+        <a href={link} target="_blank" className="font-bold text-2xl mt-1 text" rel="noreferrer">
           {companyName}
         </a>
 
@@ -68,17 +68,17 @@ export const ExperienceCard = ({
           ))}
         </div>
 
-        <p className="py-5 text-gray-300">{`${format(new Date(startDate), 'MMMM yyyy')} - ${
+        <p className="lg:py-5 text-gray-300">{`${format(new Date(startDate), 'MMMM yyyy')} - ${
           endDate ? format(new Date(endDate), 'MMMM yyyy') : 'Present'
         }`}</p>
 
-        <div className="lg:visible">
-          <h1 className="text-gray-500 text-xl tracking-wider">Responsibilities &amp; Projects</h1>
+        <h1 className="text-gray-500 lg:text-xl text-lg tracking-wider">
+          Responsibilities &amp; Projects
+        </h1>
 
-          <ul className="list-disc space-y-4 ml-5 text-lg">
-            {points.sort().map((point) => (point ? <li key={point}>{point}</li> : ''))}
-          </ul>
-        </div>
+        <ul className="list-disc space-y-4 ml-5 lg:text-lg text-sm max-w-5 max-w-[50vw] w-[50vw] lg:w-[30vw]">
+          {points.sort().map((point) => (point ? <li key={point}>{point}</li> : ''))}
+        </ul>
       </div>
     </article>
   );
