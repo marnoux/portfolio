@@ -36,7 +36,7 @@ export const About = () => {
       </motion.div>
 
       <div
-        className={`space-y-10 w-screen px-0 md:px-10 relative z-20 md:mt-20 lg:mt-20 flex snap-x snap-mandatory overflow-x-scroll scrollbar scrollbar-track-gray-400/20 scrollbar-thumb-[#36b3ed74]`}
+        className={`space-y-10 w-screen px-0 md:px-10 relative z-20 md:mt-20 lg:mt-20 flex snap-x snap-mandatory overflow-y   -scroll scrollbar scrollbar-track-gray-400/20 scrollbar-thumb-[#36b3ed74]`}
       >
         <div className="text-base space-y-4">
           <div>

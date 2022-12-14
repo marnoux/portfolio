@@ -31,13 +31,15 @@ export const Skills = () => {
       whileInView={{ opacity: 1 }}
       className="space-y-0 h-screen flex relative flex-col text-center md:text-left xl:flex-row md:max-w-[200rem] max-w-[90vw] w-[90vw] xl:px-10 min-h-screen justify-center xl:space-y-0 mx-auto items-center overflow-x-hidden"
     >
-      <h3 className="absolute top-24 uppercase tracking-[20px] text-gray-500 text-2xl">Skills</h3>
+      <h3 className="absolute top-24 uppercase tracking-[20px] text-gray-500 text-2xl text-center">
+        Skills
+      </h3>
 
-      <h3 className="absolute top-36 uppercase tracking-[3px] text-gray-500 text-sm w-[43vw]">
+      <h3 className="absolute top-36 uppercase tracking-[3px] text-gray-500 text-sm text-center">
         Hover over a skill for current proficiency
       </h3>
 
-      <div className="grid grid-cols-4 gap-5  w-[80vw] ">
+      <div className="absolute top-60 grid lg:grid-cols-4 lg:gap-5 lg:w-screen sm:w-[70vw] grid-cols-2 gap-12 ">
         {_.orderBy(skills, 'level', 'desc').map((skill, key) => {
           const name = skill.filename;
 

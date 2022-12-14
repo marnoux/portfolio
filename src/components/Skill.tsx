@@ -24,7 +24,7 @@ export const Skill = ({ directionLeft, level, name, src }: Props) => {
         src={src}
       />
 
-      <div className="absolute px-2 opacity-0 group-hover:opacity-80 transition duration-300 ease-in-out group-hover:bg-white h-24 w-24 xl:h-32 xl:w-32 z-0">
+      <div className="absolute opacity-0 group-hover:opacity-80 transition duration-300 ease-in-out group-hover:bg-white h-20 w-20 xl:h-32 xl:w-32 z-0">
         <div className="flex flex-row items-center justify-center text-center h-full">
           <p className="text font-bold text-black opacity-100">
             {`${level}%`}

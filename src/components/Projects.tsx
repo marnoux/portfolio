@@ -5,9 +5,6 @@ import Link from 'next/link';
 
 export const Projects = () => {
   const projects = [1];
-  const ReactGitHubCalendar = dynamic(() => import('react-ts-github-calendar'), {
-    ssr: false,
-  });
 
   return (
     <div className="relative z-0 mx-auto flex h-screen max-w-full flex-col items-center justify-evenly overflow-hidden text-left md:flex-row ">
@@ -29,22 +26,10 @@ export const Projects = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
             >
-              {/* <Image alt={i.toString()} src={'/react.png'} height={666} width={375} /> */}
-              <div className="mb-0 w-screen max-w-3xl">
-                <ReactGitHubCalendar
-                  cache={12 * 60 * 60 * 1000}
-                  global_stats={false}
-                  responsive
-                  userName={'marnoux'}
-                  tooltips={false}
-                />
-              </div>
-              <Link href="https://github.com/marnoux?tab=overview&from=2022-12-01&to=2022-12-14">
-                <button></button>
-              </Link>
+              <Image alt={i.toString()} src={'/react.png'} height={666} width={375} />
             </motion.div>
 
-            {/* <div>
+            <div>
               <h4 className="text-4xl font-semibold text-center">
                 <span className="underline decoration-[#36b2ed]/40">
                   Case Study {i + 1} of {projects.length}:
@@ -56,7 +41,7 @@ export const Projects = () => {
                 distinctio repellendus odit sunt exercitationem, consequatur odio officiis velit,
                 tempora voluptatum numquam autem. Dolores quisquam illo odit rem non.
               </p>
-            </div> */}
+            </div>
           </div>
         ))}
       </div>

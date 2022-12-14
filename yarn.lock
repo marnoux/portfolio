@@ -1174,16 +1174,6 @@ github-calendar-parser@^1.1.13:
   dependencies:
     github-calendar-legend "^1.0.11"
 
-github-calendar@2.2.7:
-  version "2.2.7"
-  resolved "https://registry.yarnpkg.com/github-calendar/-/github-calendar-2.2.7.tgz#6bca00167492233a1dd14f610cbb3fd3331aeb26"
-  integrity sha512-9/YY5e9OoXPJP2bEMRKgLtKpHJQY9eotghCUMmxkJNAaXP6OHGy/Pg7FZD21xlG5GGTkTe39W5+66APU0sWMEw==
-  dependencies:
-    add-subtract-date "^1.0.15"
-    elly "^1.1.11"
-    formatoid "^1.2.4"
-    github-calendar-parser "^1.1.13"
-
 github-calendar@^2.3.1:
   version "2.3.1"
   resolved "https://registry.yarnpkg.com/github-calendar/-/github-calendar-2.3.1.tgz#80d9da5ca36166703af04b7c67b5b1f9426bd2d1"
@@ -1975,13 +1965,6 @@ react-social-icons@^5.15.0:
   integrity sha512-khfDgUiUwEBe34T6br2+mkXQg3hLVDdviVjexxZoVCsogMgxTy/m8+KlX/j6Wa7P2BPxgZ7yZ2jXw3X06pUUFQ==
   dependencies:
     prop-types "^15.7.2"
-
-react-ts-github-calendar@^1.0.3:
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/react-ts-github-calendar/-/react-ts-github-calendar-1.0.3.tgz#1b1fca681218607fb5405dd8d3df65d816e4802b"
-  integrity sha512-d58GZr9yrKzAaq7tPxbFvPT7sphAnEiJJnzdJSW9AygtjRO1LWNz9hZf9/OjpmYEP3Tlknbd59jKslNlClPZ5g==
-  dependencies:
-    github-calendar "2.2.7"
 
 react@18.2.0:
   version "18.2.0"
