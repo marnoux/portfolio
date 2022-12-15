@@ -79,6 +79,10 @@ export const Experience = () => {
       <h3 className="absolute top-20 md:top-20 text-2xl uppercase tracking-[20px] text-gray-500">
         Experience
       </h3>
+      <h4 className="absolute top-[7rem] md:top-20 text-lg text-gray-500">
+        <span className="text-2xl">→</span>
+        {' for more'}
+      </h4>
 
       <motion.div className="flex snap-x snap-mandatory space-x-5 h-[85vh] mt-20 overflow-x-scroll overflow-y-hidden lg:max-w-[50vw] p-10  w-[80vw] scrollbar scrollbar-track-gray-400/20 scrollbar-thumb-[#36b2ed]">
         {_.orderBy(experience, 'startDate', 'desc').map((e) => (

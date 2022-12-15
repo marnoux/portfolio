@@ -48,17 +48,15 @@ export default function Home() {
       </section>
 
       <Link href="#hero">
-        <footer className="sticky bottom-5 w-full cursor-pointer ">
-          <div className="flex items-center justify-center">
-            <Image
-              alt={'Footer arrow'}
-              className="h-7 w-7 cursor-pointer filter invert"
-              height={10}
-              src="/up-arrow.svg"
-              width={10}
-            />
-          </div>
-        </footer>
+        <div className="sticky bottom-5 cursor-pointer flex mt-auto mb-auto flex-grow-1 items-right justify-center">
+          <Image
+            alt={'Footer arrow'}
+            className="h-7 w-7 cursor-pointer filter invert"
+            height={10}
+            src="/up-arrow.svg"
+            width={10}
+          />
+        </div>
       </Link>
     </div>
   );
