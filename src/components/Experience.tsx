@@ -79,7 +79,7 @@ export const Experience = () => {
       <h3 className="absolute top-20 md:top-20 text-2xl uppercase tracking-[20px] text-gray-500">
         Experience
       </h3>
-      <h4 className="absolute top-[7rem] md:top-20 text-lg text-gray-500">
+      <h4 className="absolute top-[6.5rem] text-lg text-gray-500">
         <span className="text-2xl">→</span>
         {' for more'}
       </h4>

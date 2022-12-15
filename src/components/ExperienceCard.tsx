@@ -47,11 +47,11 @@ export const ExperienceCard = ({
         />
       </motion.a>
 
-      <div className="px-0 md:px-10 space-y-5 overflow-y-scroll overflow-x-hidden ">
+      <div className="scrollMask px-0 md:px-10 space-y-5 overflow-y-scroll overflow-x-hidden">
         <a href={link} target="_blank" className="font-bold text-2xl mt-1 text" rel="noreferrer">
           {companyName}
         </a>
-        <h4 className="text-2xl font-light">{role}</h4>
+        <h4 className="text-xl font-light">{role}</h4>
 
         <div className="flex flex-row mx-auto space-x-1 sm:space-x-3 w-80vw">
           {techUsed.map((item) => (
