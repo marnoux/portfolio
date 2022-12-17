@@ -47,8 +47,8 @@ export default function Home() {
         <ContactMe />
       </section>
 
-      {/* <Link href="#hero">
-        <div className="sticky bottom-5 cursor-pointer flex mt-auto mb-auto flex-grow-1 items-right justify-center">
+      <div className="sticky bottom-5 cursor-pointer flex mt-auto mb-auto flex-grow-1 items-right justify-center">
+        <Link href="#hero">
           <Image
             alt={'Footer arrow'}
             className="h-7 w-7 cursor-pointer filter invert"
@@ -56,8 +56,8 @@ export default function Home() {
             src="/up-arrow.svg"
             width={10}
           />
-        </div>
-      </Link> */}
+        </Link>
+      </div>
     </div>
   );
 }
