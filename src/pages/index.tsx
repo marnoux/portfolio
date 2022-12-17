@@ -47,7 +47,7 @@ export default function Home() {
         <ContactMe />
       </section>
 
-      <Link href="#hero">
+      {/* <Link href="#hero">
         <div className="sticky bottom-5 cursor-pointer flex mt-auto mb-auto flex-grow-1 items-right justify-center">
           <Image
             alt={'Footer arrow'}
@@ -57,7 +57,7 @@ export default function Home() {
             width={10}
           />
         </div>
-      </Link>
+      </Link> */}
     </div>
   );
 }
