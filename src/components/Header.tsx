@@ -4,9 +4,9 @@ import { SocialIcon } from 'react-social-icons';
 
 export const Header = () => {
   const socialLinks = [
+    'https://linkedin.com/in/marnouxm',
     'https://github.com/marnoux',
     'https://instagram.com/marnouxm',
-    'https://linkedin.com/in/marnouxm',
     'https://twitter.com/MarnouxM',
     'https://youtube.com/@marnoux',
   ];
