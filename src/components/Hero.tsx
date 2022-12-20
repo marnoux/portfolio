@@ -9,7 +9,9 @@ export const Hero = () => {
     words: [
       'Marnoux', //
       'a <WebDeveloper />',
-    'a Husband and Father','a Musician'],
+      'a Husband and Father',
+      'a Musician',
+    ],
     loop: true,
     delaySpeed: 2000,
   });
