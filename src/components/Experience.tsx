@@ -60,7 +60,7 @@ export const Experience = () => {
       fileName: 'castor',
       link: 'https://www.linkedin.com/company/castoredc/',
       startDate: '2022-02-01',
-      endDate: '',
+      endDate: '2023-02-01',
       role: 'Senior Frontend Engineer',
       points: [
         'Moving the React Front End towards a well-structured and accessible experience',
@@ -71,6 +71,25 @@ export const Experience = () => {
         'Following the Castor quality policy, information security policy, the code of conduct and the procedures from the Quality and Information Security Management system',
       ],
       tech: ['react', 'next', 'typescript', 'javascript', 'html5', 'css3', 'docker'],
+    },
+    {
+      name: 'Newzoo',
+      fileName: 'newzoo',
+      link: 'https://www.linkedin.com/company/newzoo',
+      startDate: '2023-02-01',
+      endDate: '',
+      role: 'Senior Frontend Developer',
+      points: [
+        'Writing SOLID code',
+        'Participating in all aspects of sprints e.g. planning, refinement',
+        'Contributing towards frontend architecture and design',
+        'Guiding the team in making the right decisions in all things frontend',
+        'Taking ownership of feature development, and working together with stakeholders, design, and other engineers to build features',
+        'Mentoring peers and junior developers',
+        'Take the initiative to address technical debt',
+        'Spot opportunities to improve on the status quo',
+      ],
+      tech: ['react', 'typescript', 'javascript', 'html5', 'css3'],
     },
   ];
 

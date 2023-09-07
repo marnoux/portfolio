@@ -8,7 +8,6 @@ export const Header = () => {
     'https://github.com/marnoux',
     'https://instagram.com/marnouxm',
     'https://twitter.com/MarnouxM',
-    'https://youtube.com/@marnoux',
   ];
 
   return (
