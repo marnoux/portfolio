@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { SocialIcon } from 'react-social-icons';
+import { FaFileDownload } from 'react-icons/fa';
 
 export const Header = () => {
   const socialLinks = [
@@ -8,6 +9,7 @@ export const Header = () => {
     'https://github.com/marnoux',
     'https://instagram.com/marnouxm',
     'https://twitter.com/MarnouxM',
+    'https://marnoux-blog.vercel.app/',
   ];
 
   return (
@@ -35,7 +37,7 @@ export const Header = () => {
       </motion.div>
 
       <motion.div
-        className="flex flex-row items-start justify-start content-start text-gray-300 cursor-pointer"
+        className="flex flex-row items-center justify-start content-start text-gray-300 cursor-pointer"
         initial={{
           x: 500,
           opacity: 0,
@@ -50,12 +52,24 @@ export const Header = () => {
           duration: 1.5,
         }}
       >
+        <a
+          href="https://drive.google.com/file/d/1xYZzrHqKLR5mlolN1zyMDMLf4qzQv2U3/view?usp=sharing"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex justify-center gap-2 border border-[#242424] rounded-full uppercase text-xs tracking-widest text-gray-500 transition-all hover:border-[#36b2ed] focus:text-[#36b2ed] p-4"
+        >
+          <FaFileDownload className="cursor-pointer" size={20} />
+
+          <span className="uppercase hidden md:inline-flex text-sm text-gray-400 mr-5">
+            Download CV
+          </span>
+        </a>
         <div
           onClick={() => (window.location.href = '#contact')}
-          className="border border-[#242424] rounded-full uppercase text-xs tracking-widest text-gray-500 transition-all hover:border-[#36b2ed] focus:text-[#36b2ed]"
+          className="flex justify-center items-center border border-[#242424] rounded-full uppercase text-xs tracking-widest text-gray-500 transition-all hover:border-[#36b2ed] focus:text-[#36b2ed]"
         >
           <SocialIcon
-            className="cursor-pointer"
+            className="p-0 m-0 cursor-pointer"
             network="email"
             fgColor="gray"
             bgColor="transparent"
