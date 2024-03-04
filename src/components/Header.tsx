@@ -53,7 +53,7 @@ export const Header = () => {
         }}
       >
         <a
-          href="https://drive.google.com/file/d/1xYZzrHqKLR5mlolN1zyMDMLf4qzQv2U3/view?usp=sharing"
+          href="https://drive.google.com/uc?export=download&id=1xYZzrHqKLR5mlolN1zyMDMLf4qzQv2U3"
           target="_blank"
           rel="noopener noreferrer"
           className="flex justify-center gap-2 border border-[#242424] rounded-full uppercase text-xs tracking-widest text-gray-500 transition-all hover:border-[#36b2ed] focus:text-[#36b2ed] p-4"
