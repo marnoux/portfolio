@@ -40,7 +40,7 @@ export const ContactMe = () => {
           <div className="flex items-center space-x-5 justify-center">
             <MapPinIcon className="text-[#36b2ed] h-7 w-7 animate-pulse" />
 
-            <p className="text-2xl">Amsterdam, Netherlands</p>
+            <p className="text-2xl">Apeldoorn, Netherlands</p>
           </div>
         </div>
 
