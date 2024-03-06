@@ -28,13 +28,17 @@ export const ContactMe = () => {
           <div className="flex items-center space-x-5 justify-center">
             <PhoneIcon className="text-[#36b2ed] h-7 w-7 animate-pulse" />
 
-            <p className="text-2xl">+31 61 686 1777</p>
+            <a className="text-2xl" href="tel:0616861777">
+              +31 61 686 1777
+            </a>
           </div>
 
           <div className="flex items-center space-x-5 justify-center">
             <EnvelopeIcon className="text-[#36b2ed] h-7 w-7 animate-pulse" />
 
-            <p className="text-2xl">marnouxmanser@gmail.com</p>
+            <a className="text-2xl" href="mailto:marnouxmanser@gmail.com">
+              marnouxmanser@gmail.com
+            </a>
           </div>
 
           <div className="flex items-center space-x-5 justify-center">
