@@ -48,16 +48,15 @@ export default function Home() {
         <ContactMe />
       </section>
 
-      <div className="sticky bottom-5 cursor-pointer flex mt-auto mb-auto flex-grow-1 items-right justify-center">
-        <Link href="#hero">
-          <Image
-            alt={'Footer arrow'}
-            className="h-7 w-7 cursor-pointer filter invert"
-            height={10}
-            src="/up-arrow.svg"
-            width={10}
-          />
-        </Link>
+      <div className="sticky bottom-5 cursor-pointer flex mt-auto mb-auto flex-grow-1 items-right justify-center w-auto">
+        <Image
+          alt={'Footer arrow'}
+          className="h-7 w-7 cursor-pointer filter invert"
+          height={10}
+          src="/up-arrow.svg"
+          width={10}
+          onClick={() => window.location.replace('#hero')}
+        />
       </div>
     </div>
   );

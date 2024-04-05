@@ -1,7 +1,5 @@
 import { motion } from 'framer-motion';
-import dynamic from 'next/dynamic';
 import Image from 'next/image';
-import Link from 'next/link';
 
 export const Projects = () => {
   const projects = [
@@ -44,6 +42,7 @@ export const Projects = () => {
             className="p20 m:p-44 flex h-screen w-screen flex-shrink-0 snap-center flex-col content-center items-center justify-center space-y-5"
           >
             <motion.div
+              className="hidden md:block"
               initial={{ y: -300, opacity: 0 }}
               transition={{ duration: 1.2 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -59,13 +58,13 @@ export const Projects = () => {
             </motion.div>
 
             <div>
-              <h4 className="text-4xl font-semibold text-center">
+              <h4 className="text-2xl md:text-3xl font-semibold text-center">
                 <span className="underline decoration-[#36b2ed]/40">
                   {i + 1} of {projects.length}:
                 </span>{' '}
                 <a>{project.title}</a>
               </h4>
-              <h5 className="text-3xl font-semibold text-center underline mt-5 text-[#36b2ed]">
+              <h5 className="text-xl md:text-3xl font-semibold text-center underline mt-5 text-[#36b2ed]">
                 <a className="animate-pulse" href={project.repo} target="_blank" rel="noreferrer">
                   Code
                 </a>

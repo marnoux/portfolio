@@ -56,7 +56,7 @@ export const Header = () => {
           href="https://drive.google.com/uc?export=download&id=1a5GqRagnQJIQyaLv1TrcLcJ2_U59XIvS"
           target="_blank"
           rel="noopener noreferrer"
-          className="flex justify-center gap-2 border border-[#242424] rounded-full uppercase text-xs tracking-widest text-gray-500 transition-all hover:border-[#36b2ed] focus:text-[#36b2ed] p-4"
+          className="flex justify-center gap-2 border border-[#242424] rounded-full uppercase text-xs tracking-widest text-gray-500 transition-all hover:border-[#1d4c61] focus:text-[#36b2ed] p-4"
         >
           <FaFileDownload className="cursor-pointer" size={20} />
 
