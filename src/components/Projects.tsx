@@ -52,8 +52,8 @@ export const Projects = () => {
                 className="rounded-lg border border-[#36b2ed] object-cover"
                 alt={i.toString()}
                 src={project.image}
-                height={1920}
-                width={1080}
+                height={1280}
+                width={800}
               />
             </motion.div>
 
