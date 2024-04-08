@@ -54,6 +54,7 @@ export const Projects = () => {
                 src={project.image}
                 height={1280}
                 width={800}
+                priority
               />
             </motion.div>
 
