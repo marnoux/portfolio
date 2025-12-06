@@ -2,40 +2,45 @@
   "name": "portfolio",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
+    "dev": "react-router dev",
+    "build": "react-router build",
+    "start": "react-router-serve ./build/server/index.js",
+    "typecheck": "react-router typegen && tsc"
   },
   "dependencies": {
     "@heroicons/react": "^2.0.13",
+    "@react-router/node": "^7.0.1",
+    "@react-router/serve": "^7.0.1",
     "@types/lodash": "^4.14.191",
-    "@types/node": "18.11.11",
-    "@types/react": "18.0.26",
-    "@types/react-dom": "18.0.9",
     "@vercel/analytics": "^0.1.6",
     "@vercel/speed-insights": "^1.0.10",
     "date-fns": "^2.29.3",
-    "eslint": "8.29.0",
-    "eslint-config-next": "13.0.6",
     "framer-motion": "^7.6.19",
     "github-calendar": "^2.3.1",
+    "isbot": "^5.1.0",
     "lodash": "^4.17.21",
-    "next": "^13.5.6",
-    "react": "18.2.0",
-    "react-dom": "18.2.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
     "react-hook-form": "^7.40.0",
     "react-icons": "^5.0.1",
+    "react-router": "^7.0.1",
     "react-simple-typewriter": "^5.0.1",
-    "react-social-icons": "^5.15.0",
-    "typescript": "4.9.3"
+    "react-social-icons": "^5.15.0"
   },
   "devDependencies": {
+    "@react-router/dev": "^7.0.1",
+    "@types/node": "^22.5.4",
+    "@types/react": "^18.3.11",
+    "@types/react-dom": "^18.3.0",
     "autoprefixer": "^10.4.13",
     "postcss": "^8.4.19",
     "prettier": "^2.8.1",
     "tailwind-scrollbar": "^2.0.1",
-    "tailwindcss": "^3.2.4"
+    "tailwindcss": "^3.2.4",
+    "typescript": "^5.6.2",
+    "vite": "^5.4.8",
+    "vite-tsconfig-paths": "^5.0.1"
   }
 }

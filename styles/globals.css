@@ -33,11 +33,10 @@
   
     /* The CSS mask */
   
-    /* The content mask is a linear gradient from top to bottom */
+    /* The content mask is a linear gradient from top to bottom - no fade at top */
     --mask-image-content: linear-gradient(
       to bottom,
-      transparent,
-      black var(--mask-height),
+      black,
       black calc(90% - var(--mask-height)),
       transparent
     );
