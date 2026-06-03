@@ -1,5 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
+import { useLoaderData } from 'react-router';
 import type { Route } from './+types/workout';
+import PocketBase from 'pocketbase';
 import { getPb } from '../lib/pb';
 
 export function links() {
@@ -342,77 +344,68 @@ function GuideSection() {
   );
 }
 
+// ─── Loader ───────────────────────────────────────────────────────────────────
+
+export async function loader(_: Route.LoaderArgs) {
+  const email = process.env.PB_EMAIL;
+  const password = process.env.PB_PASSWORD;
+  const empty = { customizations: {} as Customizations, token: null, recordId: null, userId: null };
+
+  if (!email || !password) return empty;
+
+  const pb = new PocketBase('https://marnoux.fly.dev');
+  try {
+    const auth = await pb.collection('users').authWithPassword(email, password);
+    const { token } = auth;
+    const userId = auth.record.id;
+    try {
+      const record = await pb.collection('workout_customizations')
+        .getFirstListItem(`user="${userId}"`);
+      return { customizations: record['data'] as Customizations, token, recordId: record.id, userId };
+    } catch {
+      return { customizations: {} as Customizations, token, recordId: null, userId };
+    }
+  } catch (err) {
+    console.error('[workout] SSR auth failed:', err);
+    return empty;
+  }
+}
+
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
 export default function WorkoutPage() {
+  const { customizations: initial, token, recordId, userId } = useLoaderData<typeof loader>();
+
   const [activeDay, setActiveDay] = useState<Day>('mon');
-  const [customizations, setCustomizations] = useState<Customizations>({});
+  const [customizations, setCustomizations] = useState<Customizations>(initial);
   // completedSets is session-only — not persisted
   const [completedSets, setCompletedSets] = useState<Record<string, boolean[]>>({});
 
-  const recordIdRef = useRef<string | null>(null);
-  const loadedRef = useRef(false);
+  const recordIdRef = useRef<string | null>(recordId);
+  const userIdRef = useRef<string | null>(userId);
   const saveTimerRef = useRef<ReturnType<typeof setTimeout>>();
+  const isFirstRender = useRef(true);
 
-  // Silently authenticate then load customizations from PocketBase
+  // Seed the client PocketBase instance with the server-issued token
   useEffect(() => {
-    const pb = getPb();
-
-    async function init() {
-      // Authenticate
-      try {
-        if (!pb.authStore.isValid) {
-          const email = import.meta.env.VITE_PB_EMAIL as string;
-          const password = import.meta.env.VITE_PB_PASSWORD as string;
-          if (!email || !password) throw new Error('PB credentials not set');
-          await pb.collection('users').authWithPassword(email, password, { requestKey: null });
-        }
-      } catch (err) {
-        console.error('[workout] PocketBase auth failed:', err);
-        try {
-          const raw = localStorage.getItem(LS_KEY);
-          if (raw) setCustomizations(JSON.parse(raw));
-        } catch {}
-        loadedRef.current = true;
-        return;
-      }
-
-      // Load customizations (404 = no record yet, that's fine)
-      const userId = pb.authStore.record?.id!;
-      try {
-        const record = await pb.collection('workout_customizations')
-          .getFirstListItem(`user="${userId}"`, { requestKey: null });
-        recordIdRef.current = record.id;
-        setCustomizations(record['data'] as Customizations);
-        try { localStorage.setItem(LS_KEY, JSON.stringify(record['data'])); } catch {}
-      } catch (err: any) {
-        if (err?.status !== 404) console.error('[workout] PocketBase load failed:', err);
-        try {
-          const raw = localStorage.getItem(LS_KEY);
-          if (raw) setCustomizations(JSON.parse(raw));
-        } catch {}
-      } finally {
-        loadedRef.current = true;
-      }
-    }
-
-    init();
-  }, []);
+    if (token) getPb().authStore.save(token, null);
+  }, [token]);
 
   // Save to localStorage immediately + debounce save to PocketBase
   useEffect(() => {
     try { localStorage.setItem(LS_KEY, JSON.stringify(customizations)); } catch {}
-    if (!loadedRef.current) return;
+    // Skip saving on the initial render — data came from the server, nothing changed yet
+    if (isFirstRender.current) { isFirstRender.current = false; return; }
+    const uid = userIdRef.current;
+    if (!uid) return;
     clearTimeout(saveTimerRef.current);
     saveTimerRef.current = setTimeout(async () => {
-      const pb = getPb();
-      const userId = pb.authStore.record?.id;
-      if (!userId) return;
       try {
+        const pb = getPb();
         if (recordIdRef.current) {
           await pb.collection('workout_customizations').update(recordIdRef.current, { data: customizations });
         } else {
-          const rec = await pb.collection('workout_customizations').create({ user: userId, data: customizations });
+          const rec = await pb.collection('workout_customizations').create({ user: uid, data: customizations });
           recordIdRef.current = rec.id;
         }
       } catch (err) {
