@@ -1,5 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import type { Route } from './+types/workout';
+import { getPb } from '../lib/pb';
 
 export function links() {
   return [
@@ -349,17 +350,66 @@ export default function WorkoutPage() {
   // completedSets is session-only — not persisted
   const [completedSets, setCompletedSets] = useState<Record<string, boolean[]>>({});
 
+  const recordIdRef = useRef<string | null>(null);
+  const loadedRef = useRef(false);
+  const saveTimerRef = useRef<ReturnType<typeof setTimeout>>();
+
+  // Silently authenticate then load customizations from PocketBase
   useEffect(() => {
-    try {
-      const raw = localStorage.getItem(LS_KEY);
-      if (raw) setCustomizations(JSON.parse(raw));
-    } catch {}
+    const pb = getPb();
+
+    async function init() {
+      try {
+        // Reuse existing valid session; otherwise sign in with env credentials
+        if (!pb.authStore.isValid) {
+          const email = import.meta.env.VITE_PB_EMAIL as string;
+          const password = import.meta.env.VITE_PB_PASSWORD as string;
+          if (!email || !password) throw new Error('PB credentials not set');
+          await pb.collection('users').authWithPassword(email, password);
+        }
+
+        const userId = pb.authStore.record?.id;
+        if (!userId) throw new Error('No user id');
+
+        const record = await pb.collection('workout_customizations')
+          .getFirstListItem(`user="${userId}"`);
+        recordIdRef.current = record.id;
+        setCustomizations(record['data'] as Customizations);
+        try { localStorage.setItem(LS_KEY, JSON.stringify(record['data'])); } catch {}
+      } catch {
+        // No PB record yet or offline — load from localStorage
+        try {
+          const raw = localStorage.getItem(LS_KEY);
+          if (raw) setCustomizations(JSON.parse(raw));
+        } catch {}
+      } finally {
+        loadedRef.current = true;
+      }
+    }
+
+    init();
   }, []);
 
+  // Save to localStorage immediately + debounce save to PocketBase
   useEffect(() => {
-    try {
-      localStorage.setItem(LS_KEY, JSON.stringify(customizations));
-    } catch {}
+    try { localStorage.setItem(LS_KEY, JSON.stringify(customizations)); } catch {}
+    if (!loadedRef.current) return;
+    clearTimeout(saveTimerRef.current);
+    saveTimerRef.current = setTimeout(async () => {
+      const pb = getPb();
+      const userId = pb.authStore.record?.id;
+      if (!userId) return;
+      try {
+        if (recordIdRef.current) {
+          await pb.collection('workout_customizations').update(recordIdRef.current, { data: customizations });
+        } else {
+          const rec = await pb.collection('workout_customizations').create({ user: userId, data: customizations });
+          recordIdRef.current = rec.id;
+        }
+      } catch (err) {
+        console.error('PocketBase save failed', err);
+      }
+    }, 1000);
   }, [customizations]);
 
   function getExercise(day: StrengthDay, i: number): Exercise {
