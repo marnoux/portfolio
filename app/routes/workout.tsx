@@ -359,25 +359,34 @@ export default function WorkoutPage() {
     const pb = getPb();
 
     async function init() {
+      // Authenticate
       try {
-        // Reuse existing valid session; otherwise sign in with env credentials
         if (!pb.authStore.isValid) {
           const email = import.meta.env.VITE_PB_EMAIL as string;
           const password = import.meta.env.VITE_PB_PASSWORD as string;
           if (!email || !password) throw new Error('PB credentials not set');
-          await pb.collection('users').authWithPassword(email, password);
+          await pb.collection('users').authWithPassword(email, password, { requestKey: null });
         }
+      } catch (err) {
+        console.error('[workout] PocketBase auth failed:', err);
+        try {
+          const raw = localStorage.getItem(LS_KEY);
+          if (raw) setCustomizations(JSON.parse(raw));
+        } catch {}
+        loadedRef.current = true;
+        return;
+      }
 
-        const userId = pb.authStore.record?.id;
-        if (!userId) throw new Error('No user id');
-
+      // Load customizations (404 = no record yet, that's fine)
+      const userId = pb.authStore.record?.id!;
+      try {
         const record = await pb.collection('workout_customizations')
-          .getFirstListItem(`user="${userId}"`);
+          .getFirstListItem(`user="${userId}"`, { requestKey: null });
         recordIdRef.current = record.id;
         setCustomizations(record['data'] as Customizations);
         try { localStorage.setItem(LS_KEY, JSON.stringify(record['data'])); } catch {}
-      } catch {
-        // No PB record yet or offline — load from localStorage
+      } catch (err: any) {
+        if (err?.status !== 404) console.error('[workout] PocketBase load failed:', err);
         try {
           const raw = localStorage.getItem(LS_KEY);
           if (raw) setCustomizations(JSON.parse(raw));
