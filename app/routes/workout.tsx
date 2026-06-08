@@ -40,40 +40,11 @@ interface Exercise {
   strategy: 'pyramid' | 'straight';
 }
 
-interface Customization {
-  name?: string;
-  weight?: string;
-}
-
-type Customizations = Partial<Record<StrengthDay, Record<number, Customization>>>;
+// The full workout definition lives in PocketBase (workout_customizations.data).
+// Each strength day maps to its ordered list of exercises.
+type Workouts = Partial<Record<StrengthDay, Exercise[]>>;
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
-
-const LS_KEY = 'workout-customizations';
-
-const WORKOUTS: Record<StrengthDay, Exercise[]> = {
-  mon: [
-    { name: 'DB Bench Press', type: 'Compound', sets: 3, reps: '8–10', weight: '25–32kg', strategy: 'pyramid' },
-    { name: 'Incline DB Press', type: 'Compound', sets: 3, reps: '10', weight: '20–28kg', strategy: 'pyramid' },
-    { name: 'Seated DB Arnold Press', type: 'Compound', sets: 3, reps: '10', weight: '12–18kg', strategy: 'pyramid' },
-    { name: 'DB Lateral Raise', type: 'Isolation', sets: 3, reps: '15', weight: '8–12kg', strategy: 'straight' },
-    { name: 'Push-ups on handles', type: 'Compound', sets: 3, reps: 'Max', weight: 'Bodyweight', strategy: 'straight' },
-  ],
-  wed: [
-    { name: 'Goblet Squat (KB)', type: 'Compound', sets: 3, reps: '10', weight: '24–32kg', strategy: 'pyramid' },
-    { name: 'Step-up (onto bench)', type: 'Compound', sets: 3, reps: '10 each', weight: '12–20kg', strategy: 'pyramid' },
-    { name: 'Deficit Reverse Lunge', type: 'Compound', sets: 3, reps: '10 each', weight: '16–22kg', strategy: 'straight' },
-    { name: 'Glute Bridge (DB on hips)', type: 'Compound', sets: 3, reps: '15', weight: '20–30kg', strategy: 'straight' },
-    { name: 'Calf Raise', type: 'Isolation', sets: 3, reps: '20', weight: 'Hold DBs', strategy: 'straight' },
-  ],
-  fri: [
-    { name: 'Single-Arm DB Row (supported)', type: 'Compound', sets: 3, reps: '10 each', weight: '28–36kg', strategy: 'pyramid' },
-    { name: 'Seated DB Row (on bench edge)', type: 'Compound', sets: 3, reps: '10', weight: '20–28kg', strategy: 'pyramid' },
-    { name: 'DB Bicep Curl', type: 'Isolation', sets: 3, reps: '10', weight: '16–22kg', strategy: 'straight' },
-    { name: 'Hammer Curl', type: 'Isolation', sets: 3, reps: '12', weight: '14–18kg', strategy: 'straight' },
-    { name: 'Dead Bug (bodyweight core)', type: 'Isolation', sets: 3, reps: '10 each side', weight: 'Bodyweight', strategy: 'straight' },
-  ],
-};
 
 const DAYS: { id: Day; label: string; type: 'strength' | 'cardio'; sub: string }[] = [
   { id: 'mon', label: 'Mon', type: 'strength', sub: 'Push' },
@@ -349,7 +320,7 @@ function GuideSection() {
 export async function loader(_: Route.LoaderArgs) {
   const email = process.env.PB_EMAIL;
   const password = process.env.PB_PASSWORD;
-  const empty = { customizations: {} as Customizations, token: null, recordId: null, userId: null };
+  const empty = { workouts: {} as Workouts, token: null, recordId: null, userId: null };
 
   if (!email || !password) return empty;
 
@@ -361,9 +332,9 @@ export async function loader(_: Route.LoaderArgs) {
     try {
       const record = await pb.collection('workout_customizations')
         .getFirstListItem(`user="${userId}"`);
-      return { customizations: record['data'] as Customizations, token, recordId: record.id, userId };
+      return { workouts: record['data'] as Workouts, token, recordId: record.id, userId };
     } catch {
-      return { customizations: {} as Customizations, token, recordId: null, userId };
+      return { workouts: {} as Workouts, token, recordId: null, userId };
     }
   } catch (err) {
     console.error('[workout] SSR auth failed:', err);
@@ -374,10 +345,10 @@ export async function loader(_: Route.LoaderArgs) {
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
 export default function WorkoutPage() {
-  const { customizations: initial, token, recordId, userId } = useLoaderData<typeof loader>();
+  const { workouts: initial, token, recordId, userId } = useLoaderData<typeof loader>();
 
   const [activeDay, setActiveDay] = useState<Day>('mon');
-  const [customizations, setCustomizations] = useState<Customizations>(initial);
+  const [workouts, setWorkouts] = useState<Workouts>(initial);
   // completedSets is session-only — not persisted
   const [completedSets, setCompletedSets] = useState<Record<string, boolean[]>>({});
 
@@ -391,46 +362,45 @@ export default function WorkoutPage() {
     if (token) getPb().authStore.save(token, null);
   }, [token]);
 
-  // Save to localStorage immediately + debounce save to PocketBase
+  // Debounce save to PocketBase
   useEffect(() => {
-    try { localStorage.setItem(LS_KEY, JSON.stringify(customizations)); } catch {}
     // Skip saving on the initial render — data came from the server, nothing changed yet
     if (isFirstRender.current) { isFirstRender.current = false; return; }
     const uid = userIdRef.current;
     if (!uid) return;
+    // Never overwrite the record with empty data (guards against wiping the
+    // source of truth if the loader ever returns no workouts).
+    if (!Object.values(workouts).some(exs => exs && exs.length > 0)) return;
     clearTimeout(saveTimerRef.current);
     saveTimerRef.current = setTimeout(async () => {
       try {
         const pb = getPb();
         if (recordIdRef.current) {
-          await pb.collection('workout_customizations').update(recordIdRef.current, { data: customizations });
+          await pb.collection('workout_customizations').update(recordIdRef.current, { data: workouts });
         } else {
-          const rec = await pb.collection('workout_customizations').create({ user: uid, data: customizations });
+          const rec = await pb.collection('workout_customizations').create({ user: uid, data: workouts });
           recordIdRef.current = rec.id;
         }
       } catch (err) {
         console.error('PocketBase save failed', err);
       }
     }, 1000);
-  }, [customizations]);
+  }, [workouts]);
 
-  function getExercise(day: StrengthDay, i: number): Exercise {
-    const base = WORKOUTS[day][i];
-    const custom = customizations[day]?.[i];
-    return { ...base, name: custom?.name ?? base.name, weight: custom?.weight ?? base.weight };
-  }
-
-  function updateCustomization(day: StrengthDay, i: number, patch: Partial<Customization>) {
-    setCustomizations(prev => ({
-      ...prev,
-      [day]: { ...prev[day], [i]: { ...prev[day]?.[i], ...patch } },
-    }));
+  function updateExercise(day: StrengthDay, i: number, patch: Partial<Exercise>) {
+    setWorkouts(prev => {
+      const exs = prev[day];
+      if (!exs) return prev;
+      const next = exs.map((ex, idx) => (idx === i ? { ...ex, ...patch } : ex));
+      return { ...prev, [day]: next };
+    });
   }
 
   function toggleSet(day: StrengthDay, exerciseIdx: number, setIdx: number) {
     const key = `${day}-${exerciseIdx}`;
+    const sets = workouts[day]?.[exerciseIdx]?.sets ?? 0;
     setCompletedSets(prev => {
-      const current = prev[key] ?? Array(WORKOUTS[day][exerciseIdx].sets).fill(false);
+      const current = prev[key] ?? Array(sets).fill(false);
       const next = [...current];
       next[setIdx] = !next[setIdx];
       return { ...prev, [key]: next };
@@ -439,15 +409,23 @@ export default function WorkoutPage() {
 
   function resetSets(day: StrengthDay, exerciseIdx: number) {
     const key = `${day}-${exerciseIdx}`;
+    const sets = workouts[day]?.[exerciseIdx]?.sets ?? 0;
     setCompletedSets(prev => ({
       ...prev,
-      [key]: Array(WORKOUTS[day][exerciseIdx].sets).fill(false),
+      [key]: Array(sets).fill(false),
     }));
   }
 
   function renderStrengthDay(day: StrengthDay) {
-    return WORKOUTS[day].map((_, i) => {
-      const ex = getExercise(day, i);
+    const exs = workouts[day];
+    if (!exs || exs.length === 0) {
+      return (
+        <div style={{ padding: '32px 0', textAlign: 'center', color: '#888', fontSize: 14 }}>
+          No workout data available from PocketBase for this day.
+        </div>
+      );
+    }
+    return exs.map((ex, i) => {
       const key = `${day}-${i}`;
       return (
         <ExerciseCard
@@ -457,8 +435,8 @@ export default function WorkoutPage() {
           completedSets={completedSets[key] ?? Array(ex.sets).fill(false)}
           onSetToggle={n => toggleSet(day, i, n)}
           onReset={() => resetSets(day, i)}
-          onNameChange={name => updateCustomization(day, i, { name })}
-          onWeightChange={weight => updateCustomization(day, i, { weight })}
+          onNameChange={name => updateExercise(day, i, { name })}
+          onWeightChange={weight => updateExercise(day, i, { weight })}
         />
       );
     });
