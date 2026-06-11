@@ -43,5 +43,11 @@
     "typescript": "^5.9.3",
     "vite": "^5.4.21",
     "vite-tsconfig-paths": "^5.1.4"
-  }
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild"
+    ]
+  },
+  "packageManager": "pnpm@9.11.0"
 }
