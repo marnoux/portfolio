@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { useLoaderData } from 'react-router';
 import type { Route } from './+types/workout';
-import PocketBase from 'pocketbase';
 import { getPb } from '../lib/pb';
 
 export function links() {
@@ -317,27 +316,26 @@ function GuideSection() {
 
 // ─── Loader ───────────────────────────────────────────────────────────────────
 
-export async function loader(_: Route.LoaderArgs) {
-  const email = process.env.PB_EMAIL;
-  const password = process.env.PB_PASSWORD;
-  const empty = { workouts: {} as Workouts, token: null, recordId: null, userId: null };
+export async function clientLoader(_: Route.ClientLoaderArgs) {
+  const email = import.meta.env.VITE_PB_EMAIL;
+  const password = import.meta.env.VITE_PB_PASSWORD;
+  const empty = { workouts: {} as Workouts, recordId: null, userId: null };
 
   if (!email || !password) return empty;
 
-  const pb = new PocketBase('https://marnoux.fly.dev');
+  const pb = getPb();
   try {
-    const auth = await pb.collection('users').authWithPassword(email, password);
-    const { token } = auth;
+    const auth = await pb.collection('users').authWithPassword(email, password, { requestKey: null });
     const userId = auth.record.id;
     try {
       const record = await pb.collection('workout_customizations')
-        .getFirstListItem(`user="${userId}"`);
-      return { workouts: record['data'] as Workouts, token, recordId: record.id, userId };
+        .getFirstListItem(`user="${userId}"`, { requestKey: null, sort: '-updated' });
+      return { workouts: record['data'] as Workouts, recordId: record.id, userId };
     } catch {
-      return { workouts: {} as Workouts, token, recordId: null, userId };
+      return { workouts: {} as Workouts, recordId: null, userId };
     }
   } catch (err) {
-    console.error('[workout] SSR auth failed:', err);
+    console.error('[workout] PB auth failed:', err);
     return empty;
   }
 }
@@ -345,7 +343,7 @@ export async function loader(_: Route.LoaderArgs) {
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
 export default function WorkoutPage() {
-  const { workouts: initial, token, recordId, userId } = useLoaderData<typeof loader>();
+  const { workouts: initial, recordId, userId } = useLoaderData<typeof clientLoader>();
 
   const [activeDay, setActiveDay] = useState<Day>('mon');
   const [workouts, setWorkouts] = useState<Workouts>(initial);
@@ -356,11 +354,6 @@ export default function WorkoutPage() {
   const userIdRef = useRef<string | null>(userId);
   const saveTimerRef = useRef<ReturnType<typeof setTimeout>>();
   const isFirstRender = useRef(true);
-
-  // Seed the client PocketBase instance with the server-issued token
-  useEffect(() => {
-    if (token) getPb().authStore.save(token, null);
-  }, [token]);
 
   // Debounce save to PocketBase
   useEffect(() => {
