@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react';
 import { Form, Link, useActionData, useNavigation } from 'react-router';
 import type { Route } from './+types/groceries';
 import { parseItems, searchAllStores } from '../lib/grocery/index.server';
+import { defaultSelectionsForItem } from '../lib/grocery/quantity';
 import { STORES } from '../lib/grocery/types';
 import type { ItemResult, ProductMatch, StoreId } from '../lib/grocery/types';
 
@@ -10,7 +11,7 @@ export function meta(_: Route.MetaArgs) {
     { title: 'Grocery Price Compare' },
     {
       name: 'description',
-      content: 'Compare grocery prices across Dutch supermarkets (AH, Jumbo, Dirk, Lidl).',
+      content: 'Compare grocery prices across Dutch supermarkets (AH, Jumbo, Dirk).',
     },
   ];
 }
@@ -51,8 +52,8 @@ export default function GroceriesPage() {
           <h1 className="mt-3 text-3xl font-bold sm:text-4xl">Grocery Price Compare</h1>
           <p className="mt-2 max-w-2xl text-sm text-gray-400">
             Enter your grocery list and we&apos;ll check{' '}
-            <span className="text-gray-200">Albert Heijn, Jumbo, Dirk &amp; Lidl</span> to show where
-            each item is cheapest. Tip: Dutch terms match best (e.g. <em>tomaten, eieren, melk</em>).
+            <span className="text-gray-200">Albert Heijn, Jumbo &amp; Dirk</span> to show where each
+            item is cheapest. Tip: Dutch terms match best (e.g. <em>tomaten, eieren, melk</em>).
           </p>
         </header>
 
@@ -104,21 +105,22 @@ function LoadingState() {
 
 // ─── Results (holds alternative-selection state) ──────────────────────────────
 function Results({ items }: { items: ItemResult[] }) {
-  // selection key `${itemIndex}:${storeId}` -> chosen match index (default 0).
+  // selection key `${itemIndex}:${storeId}` -> chosen match index.
+  // Defaults to similarly-sized products across stores (cheapest among them);
+  // the user can override any store via its dropdown.
+  const defaults = useMemo(() => items.map((it) => defaultSelectionsForItem(it)), [items]);
   const [selection, setSelection] = useState<Record<string, number>>({});
-  const selIdx = (i: number, store: StoreId) => selection[`${i}:${store}`] ?? 0;
+  const selIdx = (i: number, store: StoreId) =>
+    selection[`${i}:${store}`] ?? defaults[i][store] ?? 0;
   const setSel = (i: number, store: StoreId, idx: number) =>
     setSelection((prev) => ({ ...prev, [`${i}:${store}`]: idx }));
 
   // Cheapest store per item + basket-level totals, recomputed as alternatives change.
   const summary = useMemo(() => {
     const cheapestPerItem: (StoreId | null)[] = [];
-    const perStoreTotal: Record<StoreId, { total: number; covered: number }> = {
-      ah: { total: 0, covered: 0 },
-      jumbo: { total: 0, covered: 0 },
-      dirk: { total: 0, covered: 0 },
-      lidl: { total: 0, covered: 0 },
-    };
+    const perStoreTotal = Object.fromEntries(
+      STORES.map((s) => [s.id, { total: 0, covered: 0 }]),
+    ) as Record<StoreId, { total: number; covered: number }>;
     let mixMatchTotal = 0;
     let pricedItems = 0;
 
@@ -259,8 +261,8 @@ function Results({ items }: { items: ItemResult[] }) {
 
       <p className="mt-6 text-xs text-gray-600">
         Prices are fetched live from each store&apos;s public endpoints and may differ from in-store
-        prices. Albert Heijn is the most reliable; Jumbo, Dirk and Lidl are best-effort and may show
-        no data.
+        prices. Each store defaults to a similarly-sized product (cheapest among them) for a fair
+        comparison — adjust any dropdown if a different product fits better.
       </p>
     </div>
   );

@@ -1,45 +1,83 @@
-// Jumbo adapter — implemented to the documented mobile API spec (v17 search,
-// no auth). Confirmed unreachable from datacenter IPs during local testing
-// (empty response), so it may need a residential/edge IP — VERIFY ON DEPLOY.
-// Parsing is defensive so shape drift degrades to "no data" rather than crashes.
+// Jumbo adapter — VERIFIED working (June 2026).
+// The mobile API (mobileapi.jumbo.com) is Akamai-protected and resets non-app
+// clients, so we use the website's Apollo GraphQL gateway instead. It requires
+// the `apollographql-client-name/-version` headers (otherwise 401 "No client
+// headers set") and `searchType: "keyword"` (otherwise the downstream 400s).
 import type { ProductMatch, StoreAdapter } from './types';
 import { fetchWithTimeout } from './util.server';
 
-const BASE = 'https://mobileapi.jumbo.com/v17';
+const ENDPOINT = 'https://www.jumbo.com/api/graphql';
 const HEADERS = {
+  'content-type': 'application/json',
+  // Values read from the jumbo.com frontend config; the version may drift over
+  // time but Jumbo only checks the headers are present, not the exact value.
+  'apollographql-client-name': 'JUMBO_WEB',
+  'apollographql-client-version': 'master-v33.9.0-web',
   'User-Agent':
-    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0) Gecko/20100101 Firefox/102.0',
-  Accept: 'application/json',
+    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0 Safari/537.36',
 };
 
-function formatUnit(unitPrice: any): string | undefined {
-  const amount = unitPrice?.price?.amount;
-  const unit = unitPrice?.unit;
-  if (typeof amount !== 'number' || !unit) return undefined;
-  return `€${(amount / 100).toFixed(2)}/${unit}`;
+// Minimal slice of the site's SearchProducts query — just the product fields we need.
+const QUERY = `
+  query SearchProducts($input: ProductSearchInput!) {
+    searchProducts(input: $input) {
+      products {
+        title
+        brand
+        subtitle: packSizeDisplay
+        image
+        link
+        price { price promoPrice pricePerUnit { price unit } }
+      }
+    }
+  }
+`;
+
+interface JumboProduct {
+  title: string;
+  brand?: string;
+  subtitle?: string;
+  image?: string;
+  link?: string;
+  price?: {
+    price?: number; // cents
+    promoPrice?: number | null; // cents, when on offer
+    pricePerUnit?: { price?: number; unit?: string } | null;
+  };
 }
 
 export const jumboAdapter: StoreAdapter = {
   id: 'jumbo',
   async search(query, limit) {
-    const url = `${BASE}/search?offset=0&limit=${limit}&q=${encodeURIComponent(query)}`;
-    const res = await fetchWithTimeout(url, { headers: HEADERS });
+    const res = await fetchWithTimeout(ENDPOINT, {
+      method: 'POST',
+      headers: HEADERS,
+      body: JSON.stringify({
+        query: QUERY,
+        variables: { input: { searchTerms: query, searchType: 'keyword', offSet: 0, limit } },
+      }),
+    });
     if (!res.ok) throw new Error(`Jumbo ${res.status}`);
-    const data = (await res.json()) as any;
-    const items: any[] = data?.products?.data ?? [];
-    return items
+    const json = (await res.json()) as any;
+    if (json?.errors?.length) throw new Error(`Jumbo gql: ${json.errors[0]?.message ?? 'error'}`);
+    const products: JumboProduct[] = json?.data?.searchProducts?.products ?? [];
+
+    return products
       .map((p): ProductMatch => {
-        const amount = p?.prices?.price?.amount; // cents
-        const img = p?.imageInfo?.primaryView?.[0]?.url ?? p?.image;
+        const cents = p.price?.promoPrice ?? p.price?.price;
+        const ppu = p.price?.pricePerUnit;
         return {
           store: 'jumbo',
-          name: p?.title,
-          price: typeof amount === 'number' ? amount / 100 : NaN,
-          size: p?.quantity,
-          unitPrice: formatUnit(p?.prices?.unitPrice),
-          onOffer: !!p?.promotion,
-          image: img,
-          url: p?.id ? `https://www.jumbo.com/producten/${p.id}` : undefined,
+          name: p.title,
+          price: typeof cents === 'number' ? cents / 100 : NaN,
+          size: p.subtitle,
+          unitPrice:
+            ppu?.price != null && ppu.unit
+              ? `€${(ppu.price / 100).toFixed(2)}/${ppu.unit}`
+              : undefined,
+          onOffer: p.price?.promoPrice != null,
+          image: p.image,
+          url: p.link ? `https://www.jumbo.com${p.link}` : undefined,
         };
       })
       .filter((m) => m.name && Number.isFinite(m.price))

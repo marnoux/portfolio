@@ -1,13 +1,12 @@
 // Shared types for the grocery price-comparison feature (/groceries).
 // One adapter per store turns a search term into a ranked list of ProductMatch.
 
-export type StoreId = 'ah' | 'jumbo' | 'dirk' | 'lidl';
+export type StoreId = 'ah' | 'jumbo' | 'dirk';
 
 export const STORES: { id: StoreId; label: string; color: string }[] = [
   { id: 'ah', label: 'Albert Heijn', color: '#00ade6' },
   { id: 'jumbo', label: 'Jumbo', color: '#eeb200' },
   { id: 'dirk', label: 'Dirk', color: '#e1001a' },
-  { id: 'lidl', label: 'Lidl', color: '#0050aa' },
 ];
 
 export const STORE_LABEL: Record<StoreId, string> = Object.fromEntries(

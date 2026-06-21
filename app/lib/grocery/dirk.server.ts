@@ -1,37 +1,41 @@
-// Dirk adapter — best-effort against the Detailresult GraphQL gateway that
-// powers dirk.nl. The gateway api key + clientId + storeId below were read from
-// the dirk.nl frontend config; the `ListProducts` query shape is a best guess
-// from the bundle's operation names and is UNVERIFIED (the gateway host was
-// unreachable from datacenter IPs during local testing). Parsing is defensive
-// and any failure degrades this store to "no data" — VERIFY ON DEPLOY.
+// Dirk adapter — VERIFIED working (June 2026).
+// Uses the Detailresult GraphQL gateway that powers dirk.nl. The api key and
+// default storeId were read from the dirk.nl frontend config. Price lives in the
+// nested `productAssortment` (offerPrice is 0 when not on offer).
 import type { ProductMatch, StoreAdapter } from './types';
 import { fetchWithTimeout } from './util.server';
 
-const GATEWAY = 'https://web-dirk-gateway.detailresult.nl/graphql';
+const GATEWAY = 'https://web-gateway.dirk.nl/graphql';
 const API_KEY = '6d3a42a3-6d93-4f98-838d-bcc0ab2307fd'; // public key from dirk.nl frontend
 const STORE_ID = 66; // default store used by dirk.nl
+const IMAGE_BASE = 'https://web-fileserver.dirk.nl/artikelen/';
 
 const QUERY = `
-  query ListProducts($searchString: String, $storeId: Int) {
-    listProducts(searchString: $searchString, storeId: $storeId) {
+  query Search($search: String!, $limit: Int, $storeId: Int!) {
+    searchProducts(search: $search, limit: $limit) {
       products {
-        productId
-        headerText
-        subText
-        packaging
-        image
-        normalPrice
-        offerPrice
+        product {
+          productId
+          brand
+          headerText
+          subText
+          packaging
+          image
+          productAssortment(storeId: $storeId) { normalPrice offerPrice }
+        }
       }
     }
   }
 `;
 
-function pickPrice(p: any): number {
-  const offer = Number(p?.offerPrice);
-  const normal = Number(p?.normalPrice);
-  if (Number.isFinite(offer) && offer > 0) return offer;
-  return normal;
+interface DirkProduct {
+  productId?: number;
+  brand?: string;
+  headerText?: string;
+  subText?: string;
+  packaging?: string;
+  image?: string;
+  productAssortment?: { normalPrice?: number; offerPrice?: number } | null;
 }
 
 export const dirkAdapter: StoreAdapter = {
@@ -42,33 +46,38 @@ export const dirkAdapter: StoreAdapter = {
       headers: {
         'content-type': 'application/json',
         apikey: API_KEY,
-        'user-agent': 'okhttp/4.9.1',
+        'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/120',
       },
       body: JSON.stringify({
         query: QUERY,
-        variables: { searchString: query, storeId: STORE_ID },
+        variables: { search: query, limit, storeId: STORE_ID },
       }),
     });
     if (!res.ok) throw new Error(`Dirk ${res.status}`);
     const json = (await res.json()) as any;
     if (json?.errors?.length) throw new Error(`Dirk gql: ${json.errors[0]?.message ?? 'error'}`);
-    const products: any[] = json?.data?.listProducts?.products ?? [];
-    return products
-      .map((p): ProductMatch => {
-        const price = pickPrice(p);
-        const name = [p?.headerText, p?.subText].filter(Boolean).join(' ');
-        const img: string | undefined = p?.image
+    const rows: { product: DirkProduct }[] = json?.data?.searchProducts?.products ?? [];
+
+    return rows
+      .map(({ product: p }): ProductMatch => {
+        const normal = Number(p.productAssortment?.normalPrice);
+        const offer = Number(p.productAssortment?.offerPrice);
+        const onOffer = Number.isFinite(offer) && offer > 0 && offer < normal;
+        const price = onOffer ? offer : normal;
+        const name = [p.headerText, p.subText].filter(Boolean).join(' ').trim() || p.brand || '';
+        const image = p.image
           ? p.image.startsWith('http')
             ? p.image
-            : `https://d3r3h30p75xj6a.cloudfront.net/${p.image}`
+            : IMAGE_BASE + p.image
           : undefined;
         return {
           store: 'dirk',
           name,
           price,
-          size: p?.packaging,
-          onOffer: Number(p?.offerPrice) > 0 && Number(p?.offerPrice) < Number(p?.normalPrice),
-          image: img,
+          size: p.packaging,
+          onOffer,
+          image,
+          url: p.productId ? `https://www.dirk.nl/zoeken/${p.productId}` : undefined,
         };
       })
       .filter((m) => m.name && Number.isFinite(m.price) && m.price > 0)

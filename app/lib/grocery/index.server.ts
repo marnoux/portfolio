@@ -3,15 +3,17 @@
 import { ahAdapter } from './ah.server';
 import { jumboAdapter } from './jumbo.server';
 import { dirkAdapter } from './dirk.server';
-import { lidlAdapter } from './lidl.server';
 import { toDutch } from './util.server';
 import { STORES } from './types';
 import type { ItemResult, SearchResponse, StoreAdapter, StoreItemResult } from './types';
 
-const ADAPTERS: StoreAdapter[] = [ahAdapter, jumboAdapter, dirkAdapter, lidlAdapter];
+const ADAPTERS: StoreAdapter[] = [ahAdapter, jumboAdapter, dirkAdapter];
 
 const MAX_ITEMS = 20;
-const ALT_LIMIT = 5; // best match + up to 4 alternatives per store
+// Fetch a wider pool of candidates so the "similar quantity" defaulting has
+// enough sizes to choose a comparable product across stores (the dropdown then
+// lists these as alternatives, ranked by relevance).
+const ALT_LIMIT = 15;
 
 // Parse the free-text input (newline- and/or comma-separated) into a clean,
 // de-duplicated, capped list of search terms.
