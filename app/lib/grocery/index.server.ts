@@ -3,7 +3,7 @@
 import { ahAdapter } from './ah.server';
 import { jumboAdapter } from './jumbo.server';
 import { dirkAdapter } from './dirk.server';
-import { toDutch } from './util.server';
+import { translateToDutch } from './translate.server';
 import { STORES } from './types';
 import type { ItemResult, SearchResponse, StoreAdapter, StoreItemResult } from './types';
 
@@ -33,9 +33,12 @@ export function parseItems(raw: string): string[] {
 }
 
 export async function searchAllStores(items: string[]): Promise<SearchResponse> {
+  // Translate the whole list to Dutch search terms up front (one Claude call).
+  const dutchTerms = await translateToDutch(items);
+
   const results = await Promise.all(
-    items.map(async (query): Promise<ItemResult> => {
-      const dutch = toDutch(query);
+    items.map(async (query, idx): Promise<ItemResult> => {
+      const dutch = dutchTerms[idx];
       const perStore = await Promise.all(
         ADAPTERS.map(async (adapter): Promise<StoreItemResult> => {
           try {
